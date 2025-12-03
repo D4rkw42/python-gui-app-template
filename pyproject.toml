@@ -1,0 +1,22 @@
+[project]
+name = "python-gui-app-template"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "D4rkw42", email = "william.conceicao042@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.12,<3.15"
+dependencies = [
+    "pyside6 (>=6.10.1,<7.0.0)"
+]
+
+[tool.poetry]
+packages = [{include = "project", from = "src"}]
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+start = "project.main:main"

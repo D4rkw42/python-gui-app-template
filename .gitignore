@@ -1,0 +1,9 @@
+# VS Code
+.vscode
+
+# Poetry
+poetry.lock
+
+# Python
+__pycache__
+*.pyc
