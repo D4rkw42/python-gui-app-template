@@ -1,7 +1,9 @@
-from PySide6.QtWidgets import QMainWindow, QVBoxLayout, QWidget
+from PySide6.QtWidgets import QMainWindow, QWidget
 from PySide6.QtGui import QIcon
 
 from project.settings import *
+
+from .Interface import Interface
 
 # janela principal do programa
 class PySide6Window(QMainWindow):
@@ -20,13 +22,8 @@ class PySide6Window(QMainWindow):
         self.resize(INITIAL_WIDTH, INITIAL_HEIGHT)
 
         # definição de container principal
-        self.container = QWidget()
-        self.setCentralWidget(self.container)
+        container = QWidget()
+        self.setCentralWidget(container)
 
         # definição da interface principal
-        self.interface = Interface(self.container)
-
-# interface principal da janela
-class Interface(QVBoxLayout):
-    def __init__(self, container: QWidget):
-        super().__init__(container)
+        Interface(container)
