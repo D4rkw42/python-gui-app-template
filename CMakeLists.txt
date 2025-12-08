@@ -20,6 +20,18 @@ else()
     message(FATAL_ERROR "This project only works correctly with MSVC compilers!")
 endif()
 
+# verifying build type
+if(${CMAKE_BUILD_TYPE} STREQUAL "Release")
+    set(SECURITY_MODULE_FILE_TYPE release)
+elseif(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
+    set(SECURITY_MODULE_FILE_TYPE debug)
+else()
+    message(FATAL_ERROR "Build type invalid!")
+endif()
+
+# DISCLAIMERS
+message(STATUS "This CMakeLists.txt was made to be integrated with Poetry Python, please be sure you are in this environment!")
+
 # dependencies
 
 include_directories(
@@ -84,14 +96,6 @@ configure_file(
     ${CMAKE_SOURCE_DIR}/bin/modules/security/__init__.py
     COPYONLY
 )
-
-if(${CMAKE_BUILD_TYPE} STREQUAL "Release")
-    set(SECURITY_MODULE_FILE_TYPE release)
-elseif(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
-    set(SECURITY_MODULE_FILE_TYPE debug)
-else()
-    message(FATAL_ERROR "Build type invalid!")
-endif()
 
 # message of template install mode
 message(STATUS "It's going to install modules for ${SECURITY_MODULE_FILE_TYPE} templates")

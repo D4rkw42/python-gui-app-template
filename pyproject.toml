@@ -37,5 +37,6 @@ clear = "build_modules.main:clear" # clear cmake configurations
 
 [dependency-groups]
 dev = [
-    "pybind11 (>=3.0.1,<4.0.0)"
+    "pybind11 (>=3.0.1,<4.0.0)",
+    "pybind11-stubgen (>=2.5.5,<3.0.0)",
 ]
