@@ -19,10 +19,7 @@ Documentation = "https://d4rkw42.github.io/python-gui-app-template/docs"
 [tool.poetry]
 packages = [
     {include = "project", from = "src"},
-
     {include = "security", from = "bin/modules"},
-
-    {include = "cmake_gen", from = "scripts"},
     {include = "build_modules", from = "scripts"}
 ]
 
@@ -31,14 +28,12 @@ requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
-start = "project.main:main"
+start = "project.main:main" # runs de project
 
 [tool.poetry.plugins."console_scripts"]
-cmake_release = "cmake_gen.main:gen_release"
-cmake_debug = "cmake_gen.main:gen_debug"
-
-build_modules_release = "build_modules.main:build_release"
-build_modules_debug = "build_modules.main:build_debug"
+build = "build_modules.main:build" # generates cmake configurations and compiles the modules
+compile = "build_modules.main:compile" # just compile the modules under current cmake configurations
+clear = "build_modules.main:clear" # clear cmake configurations
 
 [dependency-groups]
 dev = [
