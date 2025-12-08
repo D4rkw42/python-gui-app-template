@@ -1,18 +1,30 @@
 [project]
 name = "python-gui-app-template"
-version = "0.1.0"
-description = ""
+version = "1.0.0"
+description = "Base para GUI Apps genéricos feitos com Python + PySide6"
 authors = [
     {name = "D4rkw42", email = "william.conceicao042@gmail.com"}
 ]
+license = "MIT"
 readme = "README.md"
 requires-python = ">=3.12,<3.15"
 dependencies = [
-    "pyside6 (>=6.10.1,<7.0.0)"
+    "pyside6 (>=6.10.1,<7.0.0)",
 ]
 
+[project.urls]
+Repository = "https://github.com/D4rkw42/python-gui-app-template"
+Documentation = "https://d4rkw42.github.io/python-gui-app-template/docs"
+
 [tool.poetry]
-packages = [{include = "project", from = "src"}]
+packages = [
+    {include = "project", from = "src"},
+
+    {include = "security", from = "bin/modules"},
+
+    {include = "cmake_gen", from = "scripts"},
+    {include = "build_modules", from = "scripts"}
+]
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
@@ -20,3 +32,15 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
 start = "project.main:main"
+
+[tool.poetry.plugins."console_scripts"]
+cmake_release = "cmake_gen.main:gen_release"
+cmake_debug = "cmake_gen.main:gen_debug"
+
+build_modules_release = "build_modules.main:build_release"
+build_modules_debug = "build_modules.main:build_debug"
+
+[dependency-groups]
+dev = [
+    "pybind11 (>=3.0.1,<4.0.0)"
+]

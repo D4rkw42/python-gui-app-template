@@ -1,5 +1,9 @@
 # VS Code
 .vscode
+.VSCodeCounter
+
+# Git
+.git
 
 # Poetry
 poetry.lock
@@ -7,3 +11,10 @@ poetry.lock
 # Python
 __pycache__
 *.pyc
+
+# CMake
+**/Debug
+/build
+
+# Modules
+/src/security
