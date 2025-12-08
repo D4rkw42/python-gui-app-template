@@ -11,10 +11,17 @@ poetry.lock
 # Python
 __pycache__
 *.pyc
+*.pyi
 
 # CMake
-**/Debug
 /build
 
-# Modules
-/src/security
+# Binaries
+**/Release
+**/Debug
+
+/bin/modules
+
+*.pyd
+*.exp
+*.lib
