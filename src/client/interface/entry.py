@@ -1,7 +1,7 @@
 from PySide6.QtWidgets import QMainWindow, QWidget
 from PySide6.QtGui import QIcon
 
-from project.settings import *
+from client.settings import *
 
 from .Interface import Interface
 

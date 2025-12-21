@@ -50,8 +50,8 @@ link_directories(${Python_LIBRARY_DIRS})
 
 # sources
 
-file(GLOB AUTH_SOURCES CONFIGURE_DEPENDS ${CMAKE_SOURCE_DIR}/src/security/auth/*.cpp)
-file(GLOB KEY_SOURCES CONFIGURE_DEPENDS ${CMAKE_SOURCE_DIR}/src/security/key/*.cpp)
+file(GLOB AUTH_SOURCES CONFIGURE_DEPENDS ${CMAKE_SOURCE_DIR}/src/modules/security/auth/*.cpp)
+file(GLOB LOGIN_SOURCES CONFIGURE_DEPENDS ${CMAKE_SOURCE_DIR}/src/modules/security/login/*.cpp)
 
 # compile options
 
@@ -74,14 +74,14 @@ set_target_properties(
     ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin/modules/security"
 )
 
-# key module
-pybind11_add_module(key MODULE ${KEY_SOURCES})
+# login module
+pybind11_add_module(login MODULE ${LOGIN_SOURCES})
 
 set_target_properties(
-    key PROPERTIES
+    login PROPERTIES
     PREFIX ""           # no "lib" prefix
     SUFFIX ".pyd"       # extension
-    OUTPUT_NAME "key"   # output file name
+    OUTPUT_NAME "login"   # output file name
 
     # target output location
     LIBRARY_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin/modules/security"
@@ -107,9 +107,9 @@ configure_file(
     COPYONLY
 )
 
-# key.py template
+# login.py template
 configure_file(
-    ${CMAKE_SOURCE_DIR}/cmake/modules/security/key.py.${SECURITY_MODULE_FILE_TYPE}.in
-    ${CMAKE_SOURCE_DIR}/bin/modules/security/key.py
+    ${CMAKE_SOURCE_DIR}/cmake/modules/security/login.py.${SECURITY_MODULE_FILE_TYPE}.in
+    ${CMAKE_SOURCE_DIR}/bin/modules/security/login.py
     COPYONLY
 )

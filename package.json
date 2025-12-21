@@ -1,0 +1,39 @@
+{
+  "name": "python-gui-app-template",
+  "version": "1.0.0",
+  "description": "Servidor de autenticação de chaves para o projeto Python GUI App",
+  "keywords": [
+    "api",
+    "server",
+    "python",
+    "gui",
+    "app"
+  ],
+  "homepage": "https://github.com/D4rkw42/python-gui-app-template#readme",
+  "bugs": {
+    "url": "https://github.com/D4rkw42/python-gui-app-template/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/D4rkw42/python-gui-app-template.git"
+  },
+  "license": "MIT",
+  "author": "D4rkw42",
+  "type": "module",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "dev:server": "nodemon --exec ts-node src/server/index.ts"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "nodemon": "^3.1.11",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}

@@ -3,7 +3,7 @@
 from typing import Type
 from PySide6.QtWidgets import QStackedLayout, QLayout
 
-from project.utils.interface import QLayoutWrapper
+from client.utils.interface import QLayoutWrapper
 
 # Gerencia troca de rotas (abas) dentro da aplicação
 class QRouter(QStackedLayout):

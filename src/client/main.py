@@ -1,7 +1,7 @@
 from PySide6.QtCore import QTimer, QElapsedTimer
 
-from project.settings import *
-from project.globals import *
+from client.settings import *
+from client.globals import *
 
 # entry point
 def main():

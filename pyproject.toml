@@ -18,7 +18,7 @@ Documentation = "https://d4rkw42.github.io/python-gui-app-template/docs"
 
 [tool.poetry]
 packages = [
-    {include = "project", from = "src"},
+    {include = "client", from = "src"},
     {include = "security", from = "bin/modules"},
     {include = "build_modules", from = "scripts"}
 ]

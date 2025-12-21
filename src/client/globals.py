@@ -1,8 +1,8 @@
 # variáveis globais do projeto
 from PySide6.QtWidgets import QApplication
 
-from project.interface import PySide6Window
-from project.app import App
+from client.interface import PySide6Window
+from client.app import App
 
 # PySide6
 pyside6_application: QApplication = QApplication() # app principal do PySide6

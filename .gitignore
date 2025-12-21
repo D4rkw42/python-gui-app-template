@@ -5,11 +5,16 @@
 # Git
 .git
 
+# Node
+node_modules
+package-lock.json
+
 # Poetry
 poetry.lock
 
 # Python
 __pycache__
+
 *.pyc
 *.pyi
 
@@ -20,7 +25,8 @@ __pycache__
 **/Release
 **/Debug
 
-bin/modules
+/bin
+/lib
 
 *.pyd
 *.exp

@@ -1,9 +1,9 @@
 # interface principal da janela
 
 from PySide6.QtWidgets import QVBoxLayout, QWidget
-from project.utils.interface import QSSLoader, ApplicationRouter
+from client.utils.interface import QSSLoader, ApplicationRouter
 
-from project.interface.home import Home
+from client.interface.home import Home
 
 class Interface(QVBoxLayout):
     def __init__(self, parent: QWidget):
