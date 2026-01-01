@@ -6,8 +6,15 @@
 .git
 
 # Node
-node_modules
+/node_modules
+/dist
+
 package-lock.json
+
+**/*.js
+**/*.js.map
+**/*.d.ts
+**/*.d.ts.map
 
 # Poetry
 poetry.lock
