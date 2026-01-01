@@ -1,5 +1,6 @@
 {
-    "execMap": {
-        "ts": "ts-node src/server/index.ts"
-    }
+    "watch": ["src/server", "tsconfig.json"],
+    "ignore": ["dist"],
+    "ext": "ts",
+    "exec": "npm run build && npm start"
 }

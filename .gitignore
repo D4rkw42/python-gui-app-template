@@ -28,6 +28,9 @@ __pycache__
 # CMake
 /build
 
+# environments
+.env
+
 # Binaries
 **/Release
 **/Debug

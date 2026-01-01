@@ -1,9 +1,11 @@
-import express from "express";
+import app from "@server/app.js"
 
-let app = express()
+const PORT = 3000
 
-app.get("/", (req, res) => {
-    res.status(200).send("Hello World!")
-})
+// configura .env local caso em modo de desenvolvimento
+if (process.env.NODE_ENV !== "production") {
+    const dotenv = await import("dotenv")
+    dotenv.config()
+}
 
-app.listen(3000, () => console.log("Listening..."))
+app.listen(PORT, () => console.log("Listening on port", PORT))
