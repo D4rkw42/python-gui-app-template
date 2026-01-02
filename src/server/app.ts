@@ -1,10 +1,10 @@
 import express from "express"
-import cors from "cors";
+import cors from "cors"
 
 import AdminRouter from "@server/routes/admin.js"
 import AuthRouter from "@server/routes/auth.js"
 
-const app = express();
+const app = express()
 
 app.use(express.json())
 app.use(cors())

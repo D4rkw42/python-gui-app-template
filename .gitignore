@@ -28,7 +28,7 @@ __pycache__
 # CMake
 /build
 
-# environments
+# Environments
 .env
 
 # Binaries
@@ -41,3 +41,7 @@ __pycache__
 *.pyd
 *.exp
 *.lib
+
+# Storage
+/logs
+/data
