@@ -1,10 +1,13 @@
-// classe simples para erros
-class ServerError extends Error {
+// Classe simples para erros
+class ServerException extends Error {
     public description: IServerDescription
+    public exception: number
 
-    constructor(description: IServerDescription) {
+    constructor(description: IServerDescription, exception: number) {
         super(description.message, { cause: description.cause })
+
         this.description = description
+        this.exception = exception
     }
 
     get UserMessage(): string {
@@ -18,4 +21,5 @@ interface IServerDescription {
     cause?: string
 }
 
-export default ServerError
+export default ServerException
+export type { IServerDescription }

@@ -1,9 +1,14 @@
 import { IUserManagement, IUserSearch } from "@repository/interfaces/User.js"
 
 import { User } from "@models/User.js"
-import { Email } from "@models/Email.js"
 
-import ServerError from "@utils/ServerError.js"
+import ServerError from "@utils/Exception/ServerError.js"
+
+// Códigos de Erros locais retornados pelo servico
+enum CreateServiceException {
+    EmailAlreadyRegistered,
+    UnexpectedError
+}
 
 // Serviço de criação de usuários
 class CreateUserService {
@@ -15,19 +20,24 @@ class CreateUserService {
         this.userSearchRepository = userSearchRepository
     }
 
-    async load(props: { name: string, email: Email }): Promise<boolean> {
+    load(props: { name: string, email: string }) {
         // verifica se o usuário já existe no sistema
         let user = this.userSearchRepository.FindUserByEmail(props.email)
 
         // proteção contra criação de novo usuário
         if (user !== null) {
-            throw new ServerError({ message: "This e-mail is already registered" })
+            throw new ServerError({ message: "Não foi possível criar o usuário.", cause: "O e-mail informado já está registrado." }, CreateServiceException.EmailAlreadyRegistered)
         }
 
         // cria um novo usuário
         user = new User(props)
-        return this.userManagementRepository.SaveUser(user)
+        let success = this.userManagementRepository.SaveUser(user)
+
+        if (!success) {
+            throw new ServerError({ message: "Não foi possível criar o usuário.", cause: "Erro inesperado." }, CreateServiceException.UnexpectedError)
+        }
     }
 }
 
 export default CreateUserService
+export { CreateServiceException }

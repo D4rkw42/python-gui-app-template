@@ -1,7 +1,6 @@
 // Operações com usuários
 
 import { User } from "@models/User.js"
-import { Email } from "@models/Email.js"
 
 // Gerenciamento geral usuários
 interface IUserManagement {
@@ -12,8 +11,9 @@ interface IUserManagement {
 
 // Pesquisa de usuários
 interface IUserSearch {
-    FindUserByEmail(email: Email): User | null // encontra um usuário pesquisando pelo e-mail
+    FindUserByEmail(email: string): User | null // encontra um usuário pesquisando pelo e-mail
     FindUsersByName(name: string): Array<User> | null // encontra todos os usuários que possuem determinado nome
+    ListAllUsers(startAt: number, limit: number): Array<User> | null // obtém todos os usuários do banco de dados a partir de certo ponto
 }
 
 export type { IUserManagement, IUserSearch }

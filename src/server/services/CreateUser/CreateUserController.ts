@@ -1,8 +1,10 @@
-import { Request, Response } from "express"
+// Controlador de rota do serviço CreateUser
 
-import { CreateEmail } from "@models/Email.js"
-import CreateUserService from "@services/CreateUser/CreateUserService.js"
-import ServerError from "@utils/ServerError.js"
+import { Request, Response } from "express"
+import * as z from "zod"
+
+import CreateUserService, { CreateServiceException } from "@services/CreateUser/CreateUserService.js"
+import ServerError from "@utils/Exception/ServerError.js"
 
 // Request interface
 
@@ -28,52 +30,51 @@ class CreateUserController {
         this.createUserService = createUserService
     }
 
-    async handle(req: CreateUserRequest, res: Response) {
+    handle(req: CreateUserRequest, res: Response) {
         let name = req.body.name
         let email = req.body.email
 
-        // validação de dados vazios
-        if (!(name && email)) {
-            return res.status(400).json({ message: "Missing data on request." }).send() // Bad Request  
-        }
+        // Descrição do estado ideal das entradas
+        let userSchema = z.object({
+            name: z.string("Apenas texto é permitido.")
+                .min(3, "O nome deve ter pelo menos 3 caracteres.")
+                .max(15, "O nome não pode ultrapassar 15 caracteres."),
+            email: z.email("Formato de e-mail inválido.")
+        })
 
-        // validação de dados inconsistentes
-        if (typeof name !== "string" || typeof email !== "string") {
-            return res.status(400).json({ message: "Name and E-mail must be string." }).send() // Bad Request
-        }
+        // Verificação dos dados de entrada
+        let user = userSchema.safeParse({ name, email })
 
-        // validação de e-mail
-        let validEmail
-
-        // tentativa de criação de e-mail
-        try {
-            validEmail = await CreateEmail(email)
-        } catch (err: unknown) {
-            if (err instanceof ServerError) {
-                // e-mail criado não está no formato válido
-                return res.status(400).json({ message: err.UserMessage }).send() // Bad Request
-            }
-
-            return res.status(500).json({ message: "Unexpected error." }).send() // Internal Server Error
+         // Formado dos dados inválido // Bad Request
+        if (!user.success) {
+            return res.status(400).json({
+                message: "Dados inválidos.",
+                description: user.error.issues
+            })
         }
 
         try {
-            // criação do usuário
-            let success = await this.createUserService.load({ name: name, email: validEmail })
+            // Criação de usuário
+            this.createUserService.load(user.data)
 
-            if (success) {
-                return res.status(201).json({ message: "User created successfully." }).send() // Created
-            }
-
-            // Banco de dados não conseguiu salvar o usuário
-            return res.status(500).json({ message: "It was not possible to create user: unexpected error." }).send()
-        } catch (err: unknown) {
+            // Usuário criado com sucesso // Created
+            return res.status(201).json({ message: "Usuário criado com sucesso." })
+        } catch (err) {
+            // Erros de operação do servidor
             if (err instanceof ServerError) {
-                // Possíveis erros: usuário já existe
-                return res.status(400).json({ message: err.UserMessage }).send() // Bad Request
+                switch (err.exception) {
+                    case CreateServiceException.EmailAlreadyRegistered:
+                        // E-mail já registrado // Bad Request
+                        return res.status(400).json({ message: err.UserMessage })
+
+                    case CreateServiceException.UnexpectedError:
+                         // Erro inesperado // Internal Server Error
+                        return res.status(500).json({ message: err.UserMessage })
+                }
             }
 
-            return res.status(500).json({ message: "Unexpected error." }).send() // Internal Server Error
+            // Erro inesperado // Internal Server Error
+            return res.status(500).json({ message: "Erro inesperado." })
         }
     }
 }

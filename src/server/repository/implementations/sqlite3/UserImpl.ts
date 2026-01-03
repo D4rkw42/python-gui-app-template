@@ -5,7 +5,6 @@ import sqlite3db from "@database/db/sqlite3/db.js"
 import { IUserManagement, IUserSearch } from "@repository/interfaces/User.js"
 
 import { User } from "@models/User.js"
-import { Email } from "@models/Email.js"
 
 // Gerenciamento geral de usuários
 class SQLite3UserManagement implements IUserManagement {
@@ -17,7 +16,7 @@ class SQLite3UserManagement implements IUserManagement {
         `)
 
         // Salva o novo usuário
-        let changes = saveST.run(user.id, user.name, user.email.value).changes
+        let changes = saveST.run(user.id, user.name, user.email).changes
         
         // Verifica se houve alteração
         if (changes !== 0) {
@@ -41,17 +40,17 @@ class SQLite3UserManagement implements IUserManagement {
 // Pesquisa de usuários
 class SQLite3UserSearch implements IUserSearch {
     // Encontra um usuário pesquisando pelo e-mail
-    FindUserByEmail(email: Email): User | null {
+    FindUserByEmail(email: string): User | null {
         let userFoundST = sqlite3db.db.prepare(`
             SELECT * FROM Users
             WHERE email = ?;
         `)
 
-        let user: any | undefined = userFoundST.get(email.value)
+        let user: any | undefined = userFoundST.get(email)
 
         // Retorna o usuário se foi encontrado
         if (user) {
-           return new User({ id: user.id, name: user.name, email: new Email(user.email) })
+           return new User({ id: user.id, name: user.name, email: user.email })
         }
 
         return null
@@ -60,6 +59,29 @@ class SQLite3UserSearch implements IUserSearch {
     // Encontra todos os usuários que possuem determinado nome
     FindUsersByName(name: string): Array<User> | null {
         throw new Error("Method not implemented.")
+    }
+
+    // obtém todos os usuários do banco de dados a partir de certo ponto
+    ListAllUsers(startAt: number, limit: number): Array<User> | null {
+        let usersFoundST = sqlite3db.db.prepare(`
+            SELECT * FROM Users
+            LIMIT ? OFFSET ?;
+        `)
+
+        let users: any | undefined = usersFoundST.all(limit, startAt)
+
+        // Retorna null vaso não haja usuários registrados
+        if (users.length === 0) {
+            return null
+        }
+
+        let list = new Array<User>
+
+        for (let user of users) {
+            list.push(new User(user))
+        }
+
+        return list
     }
 }
 

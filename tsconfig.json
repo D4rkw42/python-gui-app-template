@@ -9,7 +9,14 @@
     // See also https://aka.ms/tsconfig/module
     "module": "nodenext",
     "target": "esnext",
-    "types": ["node", "express", "cors", "uuid", "better-sqlite3"],
+    "types": [
+      "node",
+      "express",
+      "cors",
+      "uuid",
+      "better-sqlite3",
+      "dotenv"
+    ],
     // For nodejs:
     // "lib": ["esnext"],
     // "types": ["node"],
