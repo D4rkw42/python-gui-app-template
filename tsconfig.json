@@ -44,7 +44,13 @@
     "allowJs": true,
 
     "paths": {
-      "@server/*": ["./src/server/*"]
+      "@server/*": ["./src/server/*"],
+      "@database/*": ["./src/server/database/*"],
+      "@models/*": ["./src/server/models/*"],
+      "@repository/*": ["./src/server/repository/*"],
+      "@routes/*": ["./src/server/routes/*"],
+      "@services/*": ["./src/server/services/*"],
+      "@utils/*": ["./src/server/utils/*"]
     }
   },
 

@@ -1,5 +1,7 @@
 import emailValidator from "node-email-verifier"
 
+import ServerError from "@utils/ServerError.js"
+
 // Representa um endereço de e-mail
 class Email {
     public value: string
@@ -16,7 +18,7 @@ async function CreateEmail(value: string): Promise<Email> {
         return new Email(value)
     }
 
-    throw new Error("Invalid e-mail address")
+    throw new ServerError({ message: "Invalid e-mail address." })
 }
 
 export { Email, CreateEmail }

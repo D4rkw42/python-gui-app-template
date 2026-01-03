@@ -3,4 +3,4 @@ CREATE TABLE IF NOT EXISTS AuthInfoRegister (
     uniqueAppId varchar(255),
     authkey varchar(255),
     activated boolean
-)
+);

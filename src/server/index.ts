@@ -1,5 +1,5 @@
 import app from "@server/app.js"
-import sqlite3db from "@server/database/db/sqlite3/db.js"
+import sqlite3db from "@database/db/sqlite3/db.js"
 
 // configuração de porta do express
 const DEFAULT_PORT = 3000

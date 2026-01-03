@@ -1,9 +1,9 @@
 import fs from "fs"
 
-import Database from "better-sqlite3";
+import Database from "better-sqlite3"
 
 // Configurações do Banco de Dados
-class SQlite3DB {
+class SQLite3DB {
     // banco de dados
     public db: Database.Database
 
@@ -88,6 +88,8 @@ class SQlite3DB {
     }
 } 
 
-let sqlite3db = new SQlite3DB()
+let sqlite3db = new SQLite3DB()
+
+// Tipos de dados importantes
 
 export default sqlite3db
