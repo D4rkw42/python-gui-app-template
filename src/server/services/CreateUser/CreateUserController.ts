@@ -4,7 +4,7 @@ import { Request, Response } from "express"
 import * as z from "zod"
 
 import CreateUserService, { CreateServiceException } from "@services/CreateUser/CreateUserService.js"
-import ServerError from "@utils/Exception/ServerError.js"
+import ServerError from "@server/utils/Exception/ServerException.js"
 
 // Request interface
 

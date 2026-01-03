@@ -2,7 +2,7 @@ import { IUserManagement, IUserSearch } from "@repository/interfaces/User.js"
 
 import { User } from "@models/User.js"
 
-import ServerError from "@utils/Exception/ServerError.js"
+import ServerError from "@server/utils/Exception/ServerException.js"
 
 // Códigos de Erros locais retornados pelo servico
 enum CreateServiceException {
