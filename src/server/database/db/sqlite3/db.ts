@@ -106,8 +106,8 @@ class SQLite3DB {
                 throw new Error(`Missing environment configuration for database: ${id}.`)
             }
 
-            if (typeof config !== "string") {
-                throw new Error(`Invalid environment configuration for database: ${id}. Must be string.`)
+            if (config === "") {
+                throw new Error(`Invalid environment configuration for database: ${id}.`)
             }
         }
 
