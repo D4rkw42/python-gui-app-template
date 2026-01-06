@@ -3,33 +3,46 @@
 import { Request, Response } from "express"
 import * as z from "zod"
 
-import { User } from "@models/User.js"
-import ListAllUsersService from "@services/ListAllUsers/ListAllUsersService.js"
+import User from "@resources/types/User.js"
+import ListUsersService from "@services/ListUsers/ListUsersService.js"
 
 // Request interface
 
-// Request
-type ListAllUsersRequest = Request<
+/**
+ * Configuração do Request para requisição do serviço ListUsers
+ */
+type ListUsersRequest = Request<
     Record<string | number, never>,
     any,
     Record<string | number, never>,
-    IListAllUsersQuery
+    IListUsersQuery
 >;
 
-// Request Body
-interface IListAllUsersQuery {
+/**
+ * Request Query para o serviço ListUsers
+ */
+interface IListUsersQuery {
     startAt?: number
     limit?: number
 }
 
-class ListAllUsersController {
-    private listAllUsersService: ListAllUsersService
+/**
+ * Gerencia das requisições HTTP do serviço ``ListUsers``
+ */
+class ListUsersController {
+    private listUsersService: ListUsersService
 
-    constructor(listAllUsersService: ListAllUsersService) {
-        this.listAllUsersService = listAllUsersService
+    constructor(listUsersService: ListUsersService) {
+        this.listUsersService = listUsersService
     }
 
-    handle(req: ListAllUsersRequest, res: Response) {
+    /**
+     * Controla as requisições HTTP do endpoint HTTP do serviço ``ListUsers``
+     * 
+     * @param req ``ListUsersRequest`` Request template originado da biblioteca ``express.js``
+     * @param res ``Response`` Response originado da biblioteca ``express.js``
+     */
+    handle(req: ListUsersRequest, res: Response) {
         // Validação de dados
         let startAt = Number(req.query.startAt)
         let limit = Number(req.query.limit)
@@ -54,8 +67,12 @@ class ListAllUsersController {
             })
         }
 
+        // Remove a parte fracionária caso a requisição seja feita dessa forma
+        constrains.data.startAt = Math.trunc(constrains.data.startAt)
+        constrains.data.limit = Math.trunc(constrains.data.limit)
+
         // Obtém todos os usuários
-        let users = this.listAllUsersService.load(constrains.data.startAt, constrains.data.limit)
+        let users = this.listUsersService.load(constrains.data.startAt, constrains.data.limit)
 
         // Sem usuários registrados // Ok
         if (!users) {
@@ -82,5 +99,5 @@ class ListAllUsersController {
     }
 }
 
-export default ListAllUsersController
-export type { ListAllUsersRequest }
+export default ListUsersController
+export type { ListUsersRequest }

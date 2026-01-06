@@ -3,12 +3,14 @@
 import { Request, Response } from "express"
 import * as z from "zod"
 
-import CreateUserService, { CreateServiceException } from "@services/CreateUser/CreateUserService.js"
-import ServerError from "@server/utils/Exception/ServerException.js"
+import CreateUserService, { CreateUserServiceException } from "@services/CreateUser/CreateUserService.js"
+import ServerError from "@utils/Exception/ServerException.js"
 
 // Request interface
 
-// Request
+/**
+ * Configurações do Request HTTP para o serviço CreateUser
+ */
 type CreateUserRequest = Request<
     Record<string | number, never>,
     any,
@@ -16,13 +18,17 @@ type CreateUserRequest = Request<
     Record<string | number, never>
 >;
 
-// Request Body
+/**
+ * Configurações do body HTTP para o serviço CreateUser
+ */
 interface ICreateUserRequestBody {
     name?: string
     email?: string
 }
 
-// Controller de requisições do serviço CreateUser
+/**
+ * Controller de requisições do serviço CreateUser
+ */
 class CreateUserController {
     private createUserService: CreateUserService
 
@@ -30,6 +36,12 @@ class CreateUserController {
         this.createUserService = createUserService
     }
 
+    /**
+     * Controla as requisições HTTP do endpoint HTTP do serviço ``CreateUser``
+     * 
+     * @param req ``CreateUserRequest`` Request template originado da biblioteca ``express.js``
+     * @param res ``Response`` Response originado da biblioteca ``express.js``
+     */
     handle(req: CreateUserRequest, res: Response) {
         let name = req.body.name
         let email = req.body.email
@@ -63,11 +75,11 @@ class CreateUserController {
             // Erros de operação do servidor
             if (err instanceof ServerError) {
                 switch (err.exception) {
-                    case CreateServiceException.EmailAlreadyRegistered:
+                    case CreateUserServiceException.EmailAlreadyRegistered:
                         // E-mail já registrado // Bad Request
                         return res.status(400).json({ message: err.UserMessage })
 
-                    case CreateServiceException.UnexpectedError:
+                    case CreateUserServiceException.UnexpectedError:
                          // Erro inesperado // Internal Server Error
                         return res.status(500).json({ message: err.UserMessage })
                 }

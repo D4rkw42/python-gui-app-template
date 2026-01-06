@@ -1,11 +1,15 @@
 // Classe simples para erros HTTP
 
-import ServerException, { IServerDescription } from "@server/utils/Exception/ServerException.js";
+import ServerException, { IServerExceptionDescription } from "@utils/Exception/ServerException.js";
 
+/**
+ * Representa um erro HTTP no servidor
+ * @extends ``ServerException``
+ */
 class HttpException extends ServerException {
     public status: number
 
-    constructor(description: IServerDescription, exception: number, httpStatusCode: number) {
+    constructor(description: IServerExceptionDescription, exception: number, httpStatusCode: number) {
         super(description, exception)
         this.status = httpStatusCode
     }

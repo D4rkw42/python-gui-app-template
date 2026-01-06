@@ -1,7 +1,8 @@
-// Registro de Chave de Acesso ao Aplicativo Python
-interface AuthInfo {
-    onwerId: string // o id do usuário
-    uniqueAppId: string // o id único de identificação criptografado do aplicativo
+/**
+ * Registro de Chave de Acesso ao Aplicativo Python
+ */
+class AuthInfo {
+    public productId: string // o id único de identificação do aplicativo criptografado com hash
 
     /*
      * Chave de Autenticação o Aplicativo
@@ -14,9 +15,13 @@ interface AuthInfo {
      *  * Timestamp - um timestamp para validar o tempo de vida da chave
      * 
      */
-    authkey: string
-
-    activated: boolean // se a chave já foi ativada
+    private authKey: string // hash
+    public expiresAt: string // data de expiração da chave de autenticação
+    
+    constructor(props: { productId: string, authKey: string }) {
+        this.productId = props.productId
+        this.authKey = props.authKey
+    }
 }
 
 export default AuthInfo

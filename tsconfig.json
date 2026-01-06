@@ -53,7 +53,7 @@
     "paths": {
       "@server/*": ["./src/server/*"],
       "@database/*": ["./src/server/database/*"],
-      "@models/*": ["./src/server/models/*"],
+      "@resources/*": ["./src/server/resources/*"],
       "@repository/*": ["./src/server/repository/*"],
       "@routes/*": ["./src/server/routes/*"],
       "@services/*": ["./src/server/services/*"],

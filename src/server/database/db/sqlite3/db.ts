@@ -1,56 +1,20 @@
 import fs from "fs"
-
 import Database from "better-sqlite3"
 
-// Configurações do Banco de Dados
+/**
+ * Configurações do Banco de Dados
+ */ 
 class SQLite3DB {
     // banco de dados
-    public db: Database.Database
+    private db: Database.Database
 
-    PrepareTables() {
-        // tabela de usuários
-        let userTB = this.db.prepare(this.ReadSQLFile("migrations/Users.sql"))
+    // segurança adicional para operações no banco de dados. Funções não podem ser executadas se o ambiente não foi configurado e ativo
+    private configured: boolean = false
 
-        // tabela de chaves de autenticação
-        let authInfoRegisterTB = this.db.prepare(this.ReadSQLFile("migrations/AuthInfoRegister.sql"))
-
-        // criando tabelas
-        userTB.run()
-        authInfoRegisterTB.run()
-    }
-
-    ReadSQLFile(filename: string): string {
-        if (!process.env.SQL_INSTRUCTIONS_PATH) {
-            throw new Error("Missing environment configuration for database")
-        }
-
-        if (typeof process.env.SQL_INSTRUCTIONS_PATH !== "string") {
-            throw new Error("Invalid environment configuration for database")
-        }
-
-        let SQLInstructionsPath = process.env.SQL_INSTRUCTIONS_PATH
-
-        try {
-            let instruction = fs.readFileSync(SQLInstructionsPath + filename)
-            return String(instruction)
-        } catch (err: unknown) {
-            if (err instanceof Error) {
-                throw new Error("Unable to read SQL File instructions", { cause: err.message })
-            }
-
-            throw new Error("Unable to read SQL File instructions: unexpected error")
-        }
-    }
-
-    CreateDatabase() {
-        if (!(process.env.DATABASE_PATH && process.env.DATABASE_NAME)) {
-            throw new Error("Missing environment configuration for database")
-        }
-
-        if (typeof process.env.DATABASE_PATH !== "string" || typeof process.env.DATABASE_NAME !== "string") {
-            throw new Error("Invalid environment configuration for database")
-        }
-
+    /**
+     * Cria a instância do banco de dados na memória
+     */
+    private CreateDatabase() {
         let database_path = process.env.DATABASE_PATH + "sqlite3/"
         let database_name = process.env.DATABASE_NAME
 
@@ -72,7 +36,91 @@ class SQLite3DB {
         }
     }
 
+    /**
+     * Retorna uma referência ao banco de dados na memória
+     * @throws ``Error`` Banco de dados não configurado
+     */
+    get DB(): Database.Database {
+        if (!this.configured) {
+            throw new Error("Database not configured yet.")
+        }
+
+        return this.db
+    }
+
+    /**
+     * Carrega todas as migrations do banco de dados
+     */
+    private LoadMigrations() {
+        try {
+            // Busca todos os arquivos da pasta migrations
+            let files = fs.readdirSync(process.env.SQL_INSTRUCTIONS_PATH + "migrations")
+
+            // Executa cada migration por vez
+            for (let filename of files) {
+                let migration = this.ReadSQLFile("migrations/" + filename)
+                this.DB.exec(migration)
+            }
+        } catch (err: unknown) {
+            if (err instanceof Error) {
+                throw new Error("Unable to load database migrations.", { cause: err.message })
+            }
+
+            throw new Error("Unable to load database migrations: unexpected error.")
+        }
+    }
+
+    /**
+     * Lê um arquivo de instrução SQL na memória. Os diretórios onde são guardados esses arquivos são definidos nas variáveis de ambiente.
+     * 
+     * @param filename O nome do arquivo
+     * @returns ``string`` O conteúdo do arquivo4
+     * @throws ``Error`` Banco de dados não configurado
+     */ 
+    ReadSQLFile(filename: string): string {
+        if (!this.configured) {
+            throw new Error("Database not configured yet.")
+        }
+
+        let SQLInstructionsPath = process.env.SQL_INSTRUCTIONS_PATH
+
+        try {
+            let instruction = fs.readFileSync(SQLInstructionsPath + filename)
+            return String(instruction)
+        } catch (err: unknown) {
+            if (err instanceof Error) {
+                throw new Error("Unable to read SQL File instructions.", { cause: err.message })
+            }
+
+            throw new Error("Unable to read SQL File instructions: unexpected error.")
+        }
+    }
+
+    private CheckConfigurations() {
+        let configurations = ["SQL_INSTRUCTIONS_PATH", "DATABASE_PATH", "DATABASE_NAME"]
+
+        for (let id of configurations) {
+            let config = process.env[id]
+
+            if (config === undefined) {
+                throw new Error(`Missing environment configuration for database: ${id}.`)
+            }
+
+            if (typeof config !== "string") {
+                throw new Error(`Invalid environment configuration for database: ${id}. Must be string.`)
+            }
+        }
+
+        this.configured = true
+    }
+
+    /**
+     * Carrega todas as definição do banco de dados. As demais funções do wrapper não funcionam caso não haja nenhuma configuração válida.
+     */
     LoadDatabase() {
+        // Verifica se todas as configurações estão nos conformes
+        this.CheckConfigurations()
+     
         // Criação do banco de dados
         this.CreateDatabase()
 
@@ -84,7 +132,7 @@ class SQLite3DB {
         this.db.pragma("journal_mode = WAL")
 
         // Cria as tabelas do banco de dados
-        this.PrepareTables()
+        this.LoadMigrations()
     }
 } 
 
