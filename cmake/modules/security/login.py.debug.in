@@ -1,3 +1,0 @@
-# módulo de autenticação
-
-from .Debug.login import *

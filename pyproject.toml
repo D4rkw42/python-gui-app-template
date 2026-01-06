@@ -29,14 +29,3 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
 start = "project.main:main" # runs de project
-
-[tool.poetry.plugins."console_scripts"]
-build = "build_modules.main:build" # generates cmake configurations and compiles the modules
-compile = "build_modules.main:compile" # just compile the modules under current cmake configurations
-clear = "build_modules.main:clear" # clear cmake configurations
-
-[dependency-groups]
-dev = [
-    "pybind11 (>=3.0.1,<4.0.0)",
-    "pybind11-stubgen (>=2.5.5,<3.0.0)",
-]
