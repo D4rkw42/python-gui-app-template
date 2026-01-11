@@ -46,3 +46,6 @@ __pycache__
 # Storage
 /logs
 /data
+
+# General Unuseful Annotations...
+.annotations

@@ -57,7 +57,8 @@
       "@repository/*": ["./src/server/repository/*"],
       "@routes/*": ["./src/server/routes/*"],
       "@services/*": ["./src/server/services/*"],
-      "@utils/*": ["./src/server/utils/*"]
+      "@utils/*": ["./src/server/utils/*"],
+      "@core/*": ["./src/server/core/*"]
     }
   },
 

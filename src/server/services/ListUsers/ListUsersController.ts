@@ -72,7 +72,7 @@ class ListUsersController {
         constrains.data.limit = Math.trunc(constrains.data.limit)
 
         // Obtém todos os usuários
-        let users = this.listUsersService.load(constrains.data.startAt, constrains.data.limit)
+        let users = this.listUsersService.load({ startAt: constrains.data.startAt, limit: constrains.data.limit })
 
         // Sem usuários registrados // Ok
         if (!users) {

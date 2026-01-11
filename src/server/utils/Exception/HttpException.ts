@@ -9,8 +9,8 @@ import ServerException, { IServerExceptionDescription } from "@utils/Exception/S
 class HttpException extends ServerException {
     public status: number
 
-    constructor(description: IServerExceptionDescription, exception: number, httpStatusCode: number) {
-        super(description, exception)
+    constructor(exception: number, description: IServerExceptionDescription, httpStatusCode: number) {
+        super(exception, description)
         this.status = httpStatusCode
     }
 }

@@ -10,7 +10,7 @@ class Interface(QVBoxLayout):
         super().__init__(parent)
 
         # carregamento da estilização
-        QSSLoader.LoadStyleSheet(parent, "assets/stylesheets/Interface.qss")
+        QSSLoader.LoadStyleSheet(parent, "assets/client/stylesheets/Interface.qss")
 
         ApplicationRouter.setParent(self) # linkagem do router com a interface principal
 

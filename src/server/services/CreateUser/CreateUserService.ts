@@ -13,6 +13,14 @@ enum CreateUserServiceException {
 }
 
 /**
+ * Propriedades para execução do servicço ``CreateUser``
+ */
+interface ICreateUserServiceProps {
+    name: string
+    email: string
+}
+
+/**
  * Criação de usuários a partir dos dados informados
  */
 class CreateUserService {
@@ -27,17 +35,20 @@ class CreateUserService {
     /**
      * Executa o serviço de criação de usuários
      * 
-     * @param props ``{ name: string, email: string }`` Parâmetros para criação do usuário
+     * @param props ``CreateUserServiceProps`` Parâmetros para criação do usuário
      * @throws ``ServerError`` E-mail já registrado no banco de dados
      * @throws ``ServerError`` Erro desconhecido ao tentar registrar o usuário no banco de dados
      */
-    load(props: { name: string, email: string }) {
+    load(props: ICreateUserServiceProps) {
         // verifica se o usuário já existe no sistema
         let user = this.userSearchRepository.FindUserByEmail(props.email)
 
         // proteção contra criação de novo usuário
         if (user !== null) {
-            throw new ServerError({ message: "Não foi possível criar o usuário.", cause: "O e-mail informado já está registrado." }, CreateUserServiceException.EmailAlreadyRegistered)
+            throw new ServerError(
+                CreateUserServiceException.EmailAlreadyRegistered,
+                { message: "Não foi possível criar o usuário.", cause: "O e-mail informado já está registrado." }
+            )
         }
 
         // cria um novo usuário
@@ -45,7 +56,10 @@ class CreateUserService {
         let success = this.userManagementRepository.SaveUser(user)
 
         if (!success) {
-            throw new ServerError({ message: "Não foi possível criar o usuário.", cause: "Erro inesperado." }, CreateUserServiceException.UnexpectedError)
+            throw new ServerError(
+                CreateUserServiceException.UnexpectedError,
+                { message: "Não foi possível criar o usuário.", cause: "Erro inesperado." }
+            )
         }
     }
 }

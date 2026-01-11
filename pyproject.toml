@@ -18,9 +18,7 @@ Documentation = "https://d4rkw42.github.io/python-gui-app-template/docs"
 
 [tool.poetry]
 packages = [
-    {include = "client", from = "src"},
-    {include = "security", from = "bin/modules"},
-    {include = "build_modules", from = "scripts"}
+    {include = "client", from = "src"}
 ]
 
 [build-system]
@@ -28,4 +26,4 @@ requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
-start = "project.main:main" # runs de project
+start = "client.main:main" # runs de project

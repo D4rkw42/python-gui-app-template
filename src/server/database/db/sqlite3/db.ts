@@ -1,4 +1,4 @@
-import fs from "fs"
+import fs from "node:fs"
 import Database from "better-sqlite3"
 
 /**
@@ -96,19 +96,27 @@ class SQLite3DB {
         }
     }
 
+    /**
+     * Verifica se todos os recursos de configuração são válidos.
+     */
     private CheckConfigurations() {
         let configurations = ["SQL_INSTRUCTIONS_PATH", "DATABASE_PATH", "DATABASE_NAME"]
+        let errors = 0
 
         for (let id of configurations) {
             let config = process.env[id]
 
             if (config === undefined) {
-                throw new Error(`Missing environment configuration for database: ${id}.`)
+                console.log(`Missing environment configuration for database: ${id}.`)
+                errors++
+            } else if (config === "") {
+                console.log(`Invalid environment configuration for database: ${id}.`)
+                errors++
             }
+        }
 
-            if (config === "") {
-                throw new Error(`Invalid environment configuration for database: ${id}.`)
-            }
+        if (errors !== 0) {
+            throw new Error()
         }
 
         this.configured = true
@@ -136,7 +144,7 @@ class SQLite3DB {
     }
 } 
 
-let sqlite3db = new SQLite3DB()
+const sqlite3db = new SQLite3DB()
 
 // Tipos de dados importantes
 

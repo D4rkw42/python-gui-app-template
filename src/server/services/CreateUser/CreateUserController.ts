@@ -77,11 +77,11 @@ class CreateUserController {
                 switch (err.exception) {
                     case CreateUserServiceException.EmailAlreadyRegistered:
                         // E-mail já registrado // Bad Request
-                        return res.status(400).json({ message: err.UserMessage })
+                        return res.status(400).json({ message: err.Formated })
 
                     case CreateUserServiceException.UnexpectedError:
                          // Erro inesperado // Internal Server Error
-                        return res.status(500).json({ message: err.UserMessage })
+                        return res.status(500).json({ message: err.Formated })
                 }
             }
 

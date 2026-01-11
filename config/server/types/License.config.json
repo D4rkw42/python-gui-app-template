@@ -1,0 +1,17 @@
+{
+    "build": {
+        "productKey": {
+            "layout": {
+                "bytes": [4, 2, 3, 2],
+                "separator": "-",
+                "format": "hex",
+                "signature": "base64"
+            }
+        },
+        "salt": {
+            "layout": {
+                "format": "base64"
+            }
+        }
+    }
+}

@@ -4,6 +4,14 @@ import User from "@resources/types/User.js";
 import { IUserSearchRepository } from "@repository/User.repository.js";
 
 /**
+ * Propriedades para execução do serviço ``ListUsers``
+ */
+interface IListUsersProps {
+    startAt: number
+    limit: number
+}
+
+/**
  * Listagem de usuários a partir dos dados informados
  */
 class ListUsersService {
@@ -20,8 +28,8 @@ class ListUsersService {
      * @param limit ``number`` Quantidade de usuários requeridos
      * @returns A lista de usuários ou ``null`` se não encontrar: ``Array<User> | null`` 
      */
-    load(startAt: number, limit: number): Array<User> | null{
-        return this.userSearchRepository.ListUsers(startAt, limit)
+    load(props: IListUsersProps): Array<User> | null {
+        return this.userSearchRepository.ListUsers(props.startAt, props.limit)
     }
 }
 

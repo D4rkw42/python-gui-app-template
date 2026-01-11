@@ -1,5 +1,8 @@
 CREATE TABLE IF NOT EXISTS Products (
-    id varchar(100) NOT NULL,
-    is_activated boolean NOT NULL DEFAULT false,
-    PRIMARY KEY (id)
+    build_id varchar(100),
+    owner_id varchar(100) NOT NULL,
+    install_id varchar(100) DEFAULT "none",
+    fingerprint varchar(255) DEFAULT "none",
+    is_activated boolean DEFAULT false,
+    PRIMARY KEY (build_id)
 );

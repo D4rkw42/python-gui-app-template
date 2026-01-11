@@ -14,7 +14,7 @@ class PySide6Window(QMainWindow):
         self.setWindowTitle(APP_NAME)
 
         # definição do ícone do app na janela
-        icon = QIcon("assets/favicon.ico")
+        icon = QIcon("assets/client/favicon.ico")
         self.setWindowIcon(icon)
 
         # tamanho min/inicial da janela

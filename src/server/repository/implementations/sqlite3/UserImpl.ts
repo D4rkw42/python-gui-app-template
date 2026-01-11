@@ -8,7 +8,7 @@ import IUserModel from "@database/models/IUser.model.js"
 import User from "@resources/types/User.js"
 
 // Gerenciamento geral de usuários
-class SQLite3UserManagement implements IUserManagementRepository {
+class SQLite3UserManagementRepository implements IUserManagementRepository {
     // Cria um usuário no banco de dados
     SaveUser(user: User): boolean {
         let saveST = sqlite3db.DB.prepare(`
@@ -27,20 +27,10 @@ class SQLite3UserManagement implements IUserManagementRepository {
         // Erro ao tentar salvar usuário (desconhecido)
         return false
     }
-
-    // Deleta um usuário no banco de dados
-    DeleteUser(user: User): boolean {
-        return false
-    }
-
-    // Atualiza as informações de um usuário no banco de dados
-    UpdateUser(user: User): boolean {
-        return false
-    }
 }
 
 // Pesquisa de usuários
-class SQLite3UserSearch implements IUserSearchRepository {
+class SQLite3UserSearchRepository implements IUserSearchRepository {
     // Encontra um usuário pesquisando pelo e-mail
     FindUserByEmail(email: string): User | null {
         let userFoundST = sqlite3db.DB.prepare(`
@@ -56,11 +46,6 @@ class SQLite3UserSearch implements IUserSearchRepository {
         }
 
         return null
-    }
-
-    // Encontra todos os usuários que possuem determinado nome
-    FindUsersByName(name: string): Array<User> | null {
-        throw new Error("Method not implemented.")
     }
 
     // obtém todos os usuários do banco de dados a partir de certo ponto
@@ -81,4 +66,4 @@ class SQLite3UserSearch implements IUserSearchRepository {
     }
 }
 
-export { SQLite3UserManagement, SQLite3UserSearch }
+export { SQLite3UserManagementRepository, SQLite3UserSearchRepository }

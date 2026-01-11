@@ -8,4 +8,4 @@ class Home(QVBoxLayout):
         super().__init__(parent)
 
         # carregamento da estilização
-        QSSLoader.LoadStyleSheet(parent, "assets/stylesheets/home/Home.qss")
+        QSSLoader.LoadStyleSheet(parent, "assets/client/stylesheets/home/Home.qss")

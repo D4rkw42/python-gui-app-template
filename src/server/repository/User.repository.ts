@@ -10,10 +10,9 @@ interface IUserManagementRepository {
      * Cria um novo usuário no banco de dados
      * 
      * @param user Informações do usuário
+     * @returns ``boolean`` se a operação foi bem sucedida.
      */
     SaveUser(user: User): boolean
-    DeleteUser(user: User): boolean // deleta um usuário do banco de dados
-    UpdateUser(user: User): boolean // modifica as informações de um usuário no banco de dados
 }
 
 /**
@@ -27,7 +26,6 @@ interface IUserSearchRepository {
      * @returns ``User`` se bem sucedido ou ``null`` caso contrário
      */
     FindUserByEmail(email: string): User | null
-    FindUsersByName(name: string): Array<User> | null // encontra todos os usuários que possuem determinado nome
 
     /**
      * Obtém uma quantidade determinada de usuários do banco de dados a partir do índice informado
