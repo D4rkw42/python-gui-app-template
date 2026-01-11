@@ -19,13 +19,8 @@ class SQLite3UserManagementRepository implements IUserManagementRepository {
         // Salva o novo usuário
         let changes = saveST.run(user.id, user.name, user.email).changes
         
-        // Verifica se houve alteração
-        if (changes !== 0) {
-            return true
-        }
-
-        // Erro ao tentar salvar usuário (desconhecido)
-        return false
+        // Operação bem sucedida se houve alteração
+        return changes !== 0
     }
 }
 

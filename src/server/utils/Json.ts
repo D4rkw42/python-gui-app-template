@@ -11,7 +11,7 @@ class Json {
 
     constructor(path: string) {
         try {
-            let content = fs.openSync(path, "r").toString()
+            let content = fs.readFileSync(path).toString()
 
             this.object = JSON.parse(content) as Object
             this.path = path

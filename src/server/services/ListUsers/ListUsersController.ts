@@ -1,4 +1,4 @@
-// Controlador de rota do serviço ListAllUsers
+// Controlador de rota do serviço "ListAllUsers"
 
 import { Request, Response } from "express"
 import * as z from "zod"
@@ -12,11 +12,11 @@ import ListUsersService from "@services/ListUsers/ListUsersService.js"
  * Configuração do Request para requisição do serviço ListUsers
  */
 type ListUsersRequest = Request<
-    Record<string | number, never>,
+    Record<string, never>,
     any,
-    Record<string | number, never>,
+    Record<string, never>,
     IListUsersQuery
->;
+>
 
 /**
  * Request Query para o serviço ListUsers

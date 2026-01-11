@@ -1,3 +1,5 @@
+// Controlador de rota do serviço "CreateProduct"
+
 import { BinaryToTextEncoding } from "node:crypto"
 
 import { IProductManagementRepository } from "@repository/Product.repository.js"
@@ -69,8 +71,8 @@ class CreateProductService {
 
         // Geração das informações que farão parte da licença
 
-        let productKeyLayout = licenseConfig.productKey.layout
-        let saltLayout = licenseConfig.salt.layout
+        let productKeyLayout = licenseConfig.build.productKey.layout
+        let saltLayout = licenseConfig.build.salt.layout
         
         // Chave do Produto
         let productKey = LicenseBuilder.GenerateProductKey({ 
@@ -117,3 +119,4 @@ class CreateProductService {
 }
 
 export default CreateProductService
+export { CreateProductServiceException }

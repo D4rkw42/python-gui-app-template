@@ -12,4 +12,4 @@ let sqlite3UserSearchRepository = new SQLite3UserSearchRepository()
 let listUsersService = new ListUsersService(sqlite3UserSearchRepository)
 let listUsersController = new ListUsersController(listUsersService)
 
-export { listUsersService, listUsersController }
+export default listUsersController

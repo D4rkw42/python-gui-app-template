@@ -1,4 +1,4 @@
-// Controlador de rota do serviço CreateUser
+// Controlador de rota do serviço "CreateUser"
 
 import { Request, Response } from "express"
 import * as z from "zod"
@@ -6,17 +6,22 @@ import * as z from "zod"
 import CreateUserService, { CreateUserServiceException } from "@services/CreateUser/CreateUserService.js"
 import ServerError from "@utils/Exception/ServerException.js"
 
+import Logger from "@utils/Logger.js"
+
+// logger
+const logger = new Logger(process.env.MAIN_LOG_FILE ?? ".log.txt")
+
 // Request interface
 
 /**
  * Configurações do Request HTTP para o serviço CreateUser
  */
 type CreateUserRequest = Request<
-    Record<string | number, never>,
+    Record<string, never>,
     any,
     ICreateUserRequestBody,
-    Record<string | number, never>
->;
+    Record<string, never>
+>
 
 /**
  * Configurações do body HTTP para o serviço CreateUser
@@ -83,6 +88,14 @@ class CreateUserController {
                          // Erro inesperado // Internal Server Error
                         return res.status(500).json({ message: err.Formated })
                 }
+            }
+
+            if (err instanceof Error) {
+                logger.EmitLog({ 
+                    content: err.message + (err.cause? `. Cause: ${err.cause}` : ""),
+                    origin: "HTTP:CreateUser",
+                    exception: err.name
+                 })
             }
 
             // Erro inesperado // Internal Server Error
