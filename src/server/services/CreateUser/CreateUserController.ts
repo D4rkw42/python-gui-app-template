@@ -8,9 +8,6 @@ import ServerError from "@utils/Exception/ServerException.js"
 
 import Logger from "@utils/Logger.js"
 
-// logger
-const logger = new Logger(process.env.MAIN_LOG_FILE ?? ".log.txt")
-
 // Request interface
 
 /**
@@ -48,6 +45,10 @@ class CreateUserController {
      * @param res ``Response`` Response originado da biblioteca ``express.js``
      */
     handle(req: CreateUserRequest, res: Response) {
+        // loggers
+        const errorLogger = new Logger(process.env.ERROR_LOG_FILE ?? ".log.txt")
+        const operationLogger = new Logger(process.env.OPERATION_LOG_FILE ?? ".log.txt")
+
         let name = req.body.name
         let email = req.body.email
 
@@ -74,6 +75,11 @@ class CreateUserController {
             // Criação de usuário
             this.createUserService.load(user.data)
 
+            operationLogger.EmitLog({
+                origin: "HTTP:CreateUser",
+                content: `Novo usuário "${user.data.name}" cadastrado com o seguinte e-mail: ${user.data.email}.`
+            })
+
             // Usuário criado com sucesso // Created
             return res.status(201).json({ message: "Usuário criado com sucesso." })
         } catch (err) {
@@ -91,7 +97,7 @@ class CreateUserController {
             }
 
             if (err instanceof Error) {
-                logger.EmitLog({ 
+                errorLogger.EmitLog({ 
                     content: err.message + (err.cause? `. Cause: ${err.cause}` : ""),
                     origin: "HTTP:CreateUser",
                     exception: err.name

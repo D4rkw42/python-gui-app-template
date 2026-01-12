@@ -6,9 +6,6 @@ import ServerException from "@utils/Exception/ServerException.js"
 
 import Logger from "@utils/Logger.js"
 
-// logger
-const logger = new Logger(process.env.MAIN_LOG_FILE ?? ".log.txt")
-
 /**
  * Request do serviço "CreateProduct"
  */
@@ -43,11 +40,18 @@ class CreateProductController {
      * @param res Response originado da biblioteca ``express.js``
      */
     handle(req: CreateProductRequest, res: Response) {
+        // loggers
+        const errorLogger = new Logger(process.env.ERROR_LOG_FILE ?? ".log.txt")
+        const operationLogger = new Logger(process.env.OPERATION_LOG_FILE ?? ".log.txt")
+
+        let userEmail = req.body.userEmail
+
         let userInfoSchema = z.object({
             userEmail: z.email("Endereço de e-mail inválido.")
         })
 
-        let userInfo = userInfoSchema.safeParse({ userEmail: req.body.userEmail })
+        // Verificação da validade dos dados
+        let userInfo = userInfoSchema.safeParse({ userEmail })
 
         // Dados inválidos // Bad Request  
         if (!userInfo.success) {
@@ -59,6 +63,11 @@ class CreateProductController {
 
         try {
             let result = this.createProductService.load({ userEmail: userInfo.data.userEmail })
+
+            operationLogger.EmitLog({
+                origin: "HTTP:CreateProduct",
+                content: `Novo produto criado com o id "${result.export.product.buildId}".`
+            })
 
             // Produto criado com sucesso // Created
             return res.status(201).json({
@@ -79,7 +88,7 @@ class CreateProductController {
             }
 
             if (err instanceof Error) {
-                logger.EmitLog({ 
+                errorLogger.EmitLog({ 
                     content: err.message + (err.cause? `. Cause: ${err.cause}` : ""),
                     origin: "HTTP:CreateProduct",
                     exception: err.name

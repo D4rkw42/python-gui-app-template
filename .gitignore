@@ -23,25 +23,11 @@ poetry.lock
 # Python
 __pycache__
 
-*.pyc
-*.pyi
-
 # CMake
 /build
 
 # Environments
 .env
-
-# Binaries
-**/Release
-**/Debug
-
-/bin
-/lib
-
-*.pyd
-*.exp
-*.lib
 
 # Storage
 /logs

@@ -6,6 +6,8 @@ import * as z from "zod"
 import User from "@resources/types/User.js"
 import ListUsersService from "@services/ListUsers/ListUsersService.js"
 
+import Logger from "@utils/Logger.js"
+
 // Request interface
 
 /**
@@ -43,6 +45,9 @@ class ListUsersController {
      * @param res ``Response`` Response originado da biblioteca ``express.js``
      */
     handle(req: ListUsersRequest, res: Response) {
+        // loggers
+        const errorLogger = new Logger(process.env.ERROR_LOG_FILE ?? ".log.txt")
+
         // Validação de dados
         let startAt = Number(req.query.startAt)
         let limit = Number(req.query.limit)
@@ -72,7 +77,21 @@ class ListUsersController {
         constrains.data.limit = Math.trunc(constrains.data.limit)
 
         // Obtém todos os usuários
-        let users = this.listUsersService.load({ startAt: constrains.data.startAt, limit: constrains.data.limit })
+        let users
+
+        try {
+            users = this.listUsersService.load({ startAt: constrains.data.startAt, limit: constrains.data.limit })
+        } catch (err: unknown) {
+            if (err instanceof Error) {
+                errorLogger.EmitLog({ 
+                    content: err.message + (err.cause? `. Cause: ${err.cause}` : ""),
+                    origin: "HTTP:ListUsers",
+                    exception: err.name
+                 })
+            }
+
+            return res.status(500).json({ message: "Erro inesperado." }) // Internal Server Error
+        }
 
         // Sem usuários registrados // Ok
         if (!users) {
