@@ -13,23 +13,28 @@ class LicenseBuilder {
      * @returns ``{ productKey: string, signature: string }`` A chave do produto e sua versão com hash.
      */
     static GenerateProductKey(details: { bytes: Array<number>, separator: string, productKeyFormat: BufferEncoding, signatureFormat: crypto.BinaryToTextEncoding }) {
-        let productKey = ""
+        let raw = ""
  
         for (let i = 0; i < details.bytes.length; ++i) {
             // Gera caracteres aleatórios de criptografia no formato desejado
             let byte = Math.ceil(details.bytes[i]!)
-            productKey += crypto.randomBytes(byte).toString(details.productKeyFormat)
+
+            if (byte < 1) {
+                throw new Error("Bytes must be equals 1 or greater.")
+            }
+
+            raw += crypto.randomBytes(byte).toString(details.productKeyFormat)
 
             // Inserção de separadores  
             if (i !== details.bytes.length - 1) {
-                productKey += details.separator
+                raw += details.separator
             }
         }
 
         // Hash da chave do produto
-        let signature = crypto.createHash("sha256").update(productKey).digest(details.signatureFormat)
+        let signature = crypto.createHash("sha256").update(raw).digest(details.signatureFormat)
 
-        return { productKey, signature }
+        return { raw, signature }
     }
 
     /**
@@ -64,8 +69,8 @@ class LicenseBuilder {
      * 
      * @returns ``string`` O salt aleatório.
      */
-    static GenerateRandomSalt(format: BufferEncoding): string {
-        return crypto.randomBytes(16).toString(format)
+    static GenerateRandomSalt(format: BufferEncoding, bytes: number): string {
+        return crypto.randomBytes(bytes).toString(format)
     }
 }
 

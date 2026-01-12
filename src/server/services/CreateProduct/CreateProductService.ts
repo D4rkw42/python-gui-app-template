@@ -83,7 +83,7 @@ class CreateProductService {
         })
 
         // Salt
-        let salt = LicenseBuilder.GenerateRandomSalt(saltLayout.format as BufferEncoding)
+        let salt = LicenseBuilder.GenerateRandomSalt(saltLayout.format as BufferEncoding, saltLayout.bytes as number)
 
         // Chaves Assimétricas
         let secrets = LicenseBuilder.GenerateSecretKeysPair()
@@ -97,11 +97,11 @@ class CreateProductService {
         })
 
         // Salva as informação no DB
-        let saveProductSuccessfully = this.productManagementRepository.SaveProduct(product)
-        let saveLicenseSuccessfully = this.licenseManagementRepository.SaveLicense(license)
+        let productSaveSuccess = this.productManagementRepository.SaveProduct(product)
+        let licenseSaveSuccess = this.licenseManagementRepository.SaveLicense(license)
         
         // Manipulação de erros de criação
-        if (!(saveProductSuccessfully && saveLicenseSuccessfully)) {
+        if (!(productSaveSuccess && licenseSaveSuccess)) {
             throw new ServerException(
                 CreateProductServiceException.UnexpectedError,
                 { message: "Não foi possível criar um produto para esse usuário", cause: "Erro inesperado." }
@@ -112,7 +112,7 @@ class CreateProductService {
         return {
             export: {
                 product: { buildId: product.buildId },
-                license: { productKey: license.productKey, publicKey: license.secrets.publicKey }
+                license: { productKey: productKey.raw, publicKey: secrets.publicKey }
             }
         }
     }
