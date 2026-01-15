@@ -4,8 +4,11 @@
             "layout": {
                 "bytes": [2, 1, 3, 2],
                 "separator": "-",
-                "format": "hex",
-                "signature": "base64"
+                "format": "hex"
+            },
+            "signature": {
+                "algorithm": "sha256",
+                "format": "base64"
             }
         },
         "salt": {

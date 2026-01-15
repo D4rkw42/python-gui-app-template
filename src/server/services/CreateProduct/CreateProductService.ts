@@ -70,23 +70,26 @@ class CreateProductService {
         let licenseConfig = OpenJsonConfig("types/License.config.json")
 
         // Geração das informações que farão parte da licença
-
         let productKeyLayout = licenseConfig.build.productKey.layout
+        let productKeySignature = licenseConfig.build.productKey.signature
+
         let saltLayout = licenseConfig.build.salt.layout
-        
-        // Chave do Produto
-        let productKey = LicenseBuilder.GenerateProductKey({ 
-            bytes: productKeyLayout.bytes as Array<number>,
-            separator: productKeyLayout.separator as string,
-            productKeyFormat: productKeyLayout.format as BufferEncoding,
-            signatureFormat: productKeyLayout.signature as BinaryToTextEncoding
-        })
 
         // Salt
         let salt = LicenseBuilder.GenerateRandomSalt(saltLayout.format as BufferEncoding, saltLayout.bytes as number)
 
         // Chaves Assimétricas
         let secrets = LicenseBuilder.GenerateSecretKeysPair()
+
+        // Chave do Produto
+        let productKey = LicenseBuilder.GenerateProductKey({
+            algorithm: productKeySignature.algorithm as string,
+            salt: salt as string,
+            signatureFormat: productKeySignature.format as BinaryToTextEncoding,
+            publicKeyFormat: productKeyLayout.format as BufferEncoding,
+            bytes: productKeyLayout.bytes as Array<number>,
+            separator: productKeyLayout.separator as string
+        })
 
         // Gera a licença conforme a configuração
         let license = new License({

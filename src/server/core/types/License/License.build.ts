@@ -3,16 +3,28 @@
 import * as crypto from "node:crypto"
 
 /**
+ * Detalhes para criação de chaves do método ``LicenseBuilder.GenerateProductKey``
+ */
+interface IProductKeyDetails {
+    algorithm: string
+    salt: string
+    signatureFormat: crypto.BinaryToTextEncoding
+    publicKeyFormat: BufferEncoding
+    bytes: Array<number>
+    separator: string
+}
+
+/**
  * Classe builder para informações da Licença
  */
 class LicenseBuilder {
     /**
      * Gera uma chave de produto aleatória.
      * 
-     * @param details Especificações da formatação da chave: ``segments`` (``Array<number>``) - bytes por separação, ``separator`` (``string``) - string do separador, ``productKeyFormat`` (``BufferEnconding``) - formato da chave gerada, ``signatureFormat`` (``crypto.BinaryToTextEncoding``) - formato do hash gerado a partir da chave do produto.
+     * @param details ``IProductKeyDetails`` Especificações da formatação da chave: ``segments`` (``Array<number>``) - bytes por separação, ``separator`` (``string``) - string do separador, ``productKeyFormat`` (``BufferEnconding``) - formato da chave gerada, ``signatureFormat`` (``crypto.BinaryToTextEncoding``) - formato do hash gerado a partir da chave do produto.
      * @returns ``{ productKey: string, signature: string }`` A chave do produto e sua versão com hash.
      */
-    static GenerateProductKey(details: { bytes: Array<number>, separator: string, productKeyFormat: BufferEncoding, signatureFormat: crypto.BinaryToTextEncoding }) {
+    static GenerateProductKey(details: IProductKeyDetails) {
         let raw = ""
  
         for (let i = 0; i < details.bytes.length; ++i) {
@@ -23,7 +35,7 @@ class LicenseBuilder {
                 throw new Error("Bytes must be equals 1 or greater.")
             }
 
-            raw += crypto.randomBytes(byte).toString(details.productKeyFormat)
+            raw += crypto.randomBytes(byte).toString(details.publicKeyFormat)
 
             // Inserção de separadores  
             if (i !== details.bytes.length - 1) {
@@ -32,7 +44,7 @@ class LicenseBuilder {
         }
 
         // Hash da chave do produto
-        let signature = crypto.createHash("sha256").update(raw).digest(details.signatureFormat)
+        let signature = crypto.createHash(details.algorithm).update(raw + details.salt).digest(details.signatureFormat)
 
         return { raw, signature }
     }
