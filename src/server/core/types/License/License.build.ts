@@ -69,7 +69,7 @@ class LicenseBuilder {
             format: "pem"
         })
 
-        // Retorna convertido para base64
+        // Retorna convertido para PEM
         return { 
             publicKey: publicKeyExported as string,
             privateKey: privateKeyExported as string

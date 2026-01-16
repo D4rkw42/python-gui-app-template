@@ -1,4 +1,7 @@
 import fs from "node:fs"
+import { DateTime } from "luxon"
+
+import { OpenJsonConfig } from "@utils/Config.js"
 
 /**
  * Dados passados para emissão de logs
@@ -39,8 +42,10 @@ class Logger {
     }
 
     static FormatLog(origin: string, content: string, exception?: string): string {
-        let date = new Date()
-        let timestamp = date.toLocaleString("pt-br", { timeZone: "Etc/GMT+3" })
+        let config = OpenJsonConfig("config.json")
+        
+        let time = DateTime.local().setLocale(config.locale as string).setZone(config.timezone as string)
+        let timestamp = time.toFormat("dd/MM/yyyy H:mm:ss")
     
         return `[${timestamp}] [${origin}]${exception? ` [${exception}]` : ""}: ${content}`
     }

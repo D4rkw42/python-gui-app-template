@@ -15,7 +15,8 @@
       "cors",
       "uuid",
       "better-sqlite3",
-      "dotenv"
+      "dotenv",
+      "luxon"
     ],
     // For nodejs:
     // "lib": ["esnext"],

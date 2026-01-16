@@ -1,0 +1,8 @@
+{
+    "duration": { "days": 3 },
+    "timestamp": {
+        "locale": "en-us"
+    },
+    "algorithm": "ed25519",
+    "encoding": "base64"
+}

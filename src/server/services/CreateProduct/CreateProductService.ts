@@ -29,6 +29,22 @@ interface ICreateProductProps {
     userEmail: string
 }
 
+/**
+ * Export do serviço CreateProduct
+ */
+interface ICreateProductExport {
+    export: {
+        product: {
+            buildId: string
+        }
+        
+        license: {
+            productKey: string
+            publicKey: string
+        }
+    }
+}
+
 class CreateProductService {
     private userSearchRepository: IUserSearchRepository
     private productManagementRepository: IProductManagementRepository
@@ -48,10 +64,11 @@ class CreateProductService {
      * Executa o serviço de criação de produtos.
      * 
      * @param props ``{ userEmail: string }`` Parâmetros para criação do produto.
+     * @returns ``ICreateProductExport`` Dados importantes acerca da criação do produto
      * @throws ``ServerError`` E-mail não registrado no banco de dados.
      * @throws ``ServerError`` Erro desconhecido ao tentar registrar o produto e/ou a licença do produto no banco de dados.
      */
-    load(props: ICreateProductProps) {
+    load(props: ICreateProductProps): ICreateProductExport {
         // Verificação da existência do usuário
 
         let user = this.userSearchRepository.FindUserByEmail(props.userEmail)
