@@ -7,6 +7,8 @@ import { IProductManagementRepository, IProductSearchRepository } from "@reposit
 import { ILicenseSearchRepository } from "@repository/License.repository.js"
 import { IPayloadManagementRepository, IPayloadSearchRepository } from "@repository/Payload.repository.js"
 
+import TransactionManager from "@database/TransactionManager.js"
+
 import { IPayload, CreatePayload, GeneratePayloadToken } from "@resources/shared/services/Payload.js"
 
 import LicenseValidation from "@core/types/License/License.validation.js"
@@ -16,6 +18,7 @@ import License from "@resources/types/License.js"
 
 import ServerException from "@utils/Exception/ServerException.js"
 import { OpenJsonConfig } from "@utils/Config.js"
+
 
 /**
  * Exceções lançadas pelo serviço "ActivateApp"
@@ -53,11 +56,16 @@ interface IActivateAppExport {
 
 class ActivateAppService {
     private userSearchRepository: IUserSearchRepository
+
     private productSearchRepository: IProductSearchRepository
     private productManagementRepository: IProductManagementRepository
+
     private licenseSearchRepository: ILicenseSearchRepository
+
     private payloadSearchRepository: IPayloadSearchRepository
     private payloadManagementRepository: IPayloadManagementRepository
+
+    private transactionManager: TransactionManager
 
     constructor(
         userSearchRepository: IUserSearchRepository,
@@ -65,14 +73,20 @@ class ActivateAppService {
         productManagementRepository: IProductManagementRepository,
         licenseSearchRepository: ILicenseSearchRepository,
         payloadSearchRepository: IPayloadSearchRepository,
-        payloadManagementRepository: IPayloadManagementRepository
+        payloadManagementRepository: IPayloadManagementRepository,
+        transactionManager: TransactionManager
     ) {
         this.userSearchRepository = userSearchRepository
+
         this.productSearchRepository = productSearchRepository
         this.productManagementRepository = productManagementRepository
+
         this.licenseSearchRepository = licenseSearchRepository
+
         this.payloadSearchRepository = payloadSearchRepository
         this.payloadManagementRepository = payloadManagementRepository
+
+        this.transactionManager = transactionManager
     }
 
     load(props: IActivateAppProps): IActivateAppExport {
@@ -152,29 +166,31 @@ class ActivateAppService {
         }
 
         // Ativação da licença e criação do payload
-        
-        let payload, token
 
-        // @TODO Adicionar reversão de ações no catch para caso uma das ações seja executada seu feito seja revertido
-        // de executar todas de uma vez. 
-        try {
-            this.productManagementRepository.Activate(product) // atualiza campo de ativação do produto
-            this.productManagementRepository.UpdateInstallInfo(product, props.installId, props.fingerprint) // atualiza informações de instalação
+        // Transação para execução de todas as operações de uma vez
+        function transaction(...args: any[]): { payload: IPayload, token: string } {
+            let service = args[0] as ActivateAppService
+
+            service.productManagementRepository.Activate(product) // atualiza campo de ativação do produto
+            service.productManagementRepository.UpdateInstallInfo(product, props.installId, props.fingerprint) // atualiza informações de instalação
         
             // Payload com modo "online" + "token"
-            payload = CreatePayload({ installId: props.installId, mode: "online" })
-            token = GeneratePayloadToken(payload, license.secrets.privateKey)
+            let payload = CreatePayload({ installId: props.installId, mode: "online" })
+            let token = GeneratePayloadToken(payload, license.secrets.privateKey)
 
-            this.payloadManagementRepository.SavePayload(payload, token) // salva o payload no DB
+            service.payloadManagementRepository.SavePayload(payload, token) // salva o payload no DB
+
+            return { payload, token }
+        }
+
+        try {
+            let result = this.transactionManager.load(transaction, this) as { payload: IPayload, token: string }
+            return { export: result }
         } catch {
             throw new ServerException(ActivateAppServiceException.UnexpectedError, {
                 message: "Não foi possível ativar o produto.",
                 cause: "Erro inesperado."
             })
-        }
-
-        return {
-            export: { payload, token }
         }
     }
 }

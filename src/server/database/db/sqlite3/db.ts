@@ -11,6 +11,11 @@ class SQLite3DB {
     // segurança adicional para operações no banco de dados. Funções não podem ser executadas se o ambiente não foi configurado e ativo
     private configured: boolean = false
 
+    constructor() {
+        // Faz o bind da função Transaction para garantir que o ponteiro this permanecerá entre chamadas de wrappers
+        this.Transaction = this.Transaction.bind(this)
+    }
+
     /**
      * Cria a instância do banco de dados na memória
      */
@@ -46,6 +51,18 @@ class SQLite3DB {
         }
 
         return this.db
+    }
+
+    /**
+     * Executa múltiplas ações do banco de dados com rollback (cancelamento de operação com restauração) automático.
+     * 
+     * @param callback ``(...args: any[]) => unknown`` Função que será executada.
+     * @param ...args ``any[]`` Argumentos que serão passados para essa função.
+     * @returns ``unknown`` Último retorno de callback.
+     * @throws ``Error`` Se alguma operação falhou.
+     */
+    Transaction(callback: (...args: any[]) => unknown, ...args: any[]): unknown {
+        return this.DB.transaction(callback)(...args)
     }
 
     /**
