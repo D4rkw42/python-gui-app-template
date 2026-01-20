@@ -8,10 +8,10 @@ type TransactionCallback = (...args: any[]) => unknown
 
 /** Classe de representa uma transação */
 class TransactionManager {
-    private transactionA: TransactionOperation
+    private transaction: TransactionOperation
 
     constructor(transaction: TransactionOperation) {
-        this.transactionA = transaction
+        this.transaction = transaction
     }
 
     /**
@@ -19,7 +19,7 @@ class TransactionManager {
      * @param callback ``TransactionCallback`` A função que executa as operações do banco de dados
      */
     load(callback: TransactionCallback, ...args: any[]): unknown {
-        return this.transactionA(callback, ...args)
+        return this.transaction(callback, ...args)
     }
 }
 
