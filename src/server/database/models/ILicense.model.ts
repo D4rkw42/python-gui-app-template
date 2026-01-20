@@ -1,4 +1,4 @@
-interface IInterfaceModel {
+interface ILicenseModel {
     product_build_id: string
     product_key: string
     public_secret_key: string
@@ -6,4 +6,4 @@ interface IInterfaceModel {
     salt: string
 }
 
-export default IInterfaceModel
+export default ILicenseModel

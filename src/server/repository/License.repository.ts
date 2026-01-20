@@ -10,7 +10,7 @@ interface ILicenseManagementRepository {
     /**
      * Cria uma nova licença no banco de dados.
      * 
-     * @param license Informações da licença.
+     * @param license ``License`` Informações da licença.
      * @returns ``boolean`` se a operação foi bem sucedida.
      */
     SaveLicense(license: License): boolean
@@ -21,9 +21,9 @@ interface ILicenseManagementRepository {
  */
 interface ILicenseSearchRepository {
     /**
-     * Encontra uma licença pesquisando pelo produto.
+     * Encontra uma licença pesquisando pelo produto através do identificador de build.
      * 
-     * @param product O produto especificado.
+     * @param product ``Product`` O produto especificado.
      * @returns ``License`` se bem sucedido ou ``null`` caso contrário.
      */
     FindLicenseByProduct(product: Product): License | null

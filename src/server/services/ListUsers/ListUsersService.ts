@@ -12,6 +12,13 @@ interface IListUsersProps {
 }
 
 /**
+ * Dados exportados pelo serviõ ``ListUsers``
+ */
+interface IListUsersExport {
+    export: { users: Array<User> | null }
+}
+
+/**
  * Listagem de usuários a partir dos dados informados
  */
 class ListUsersService {
@@ -28,8 +35,10 @@ class ListUsersService {
      * @param limit ``number`` Quantidade de usuários requeridos
      * @returns A lista de usuários ou ``null`` se não encontrar: ``Array<User> | null`` 
      */
-    load(props: IListUsersProps): Array<User> | null {
-        return this.userSearchRepository.ListUsers(props.startAt, props.limit)
+    load(props: IListUsersProps): IListUsersExport {
+        return {
+            export: { users: this.userSearchRepository.ListUsers(props.startAt, props.limit) }
+        }
     }
 }
 

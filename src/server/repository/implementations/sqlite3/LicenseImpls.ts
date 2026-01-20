@@ -2,8 +2,32 @@
 
 import sqlite3db from "@database/db/sqlite3/db.js"
 
-import { ILicenseManagementRepository } from "@repository/License.repository.js"
+import { ILicenseSearchRepository, ILicenseManagementRepository } from "@repository/License.repository.js"
+import ILicenseModel from "@database/models/ILicense.model.js"
+
 import License from "@resources/types/License.js"
+import Product from "@resources/types/Product.js"
+
+class SQLite3LicenseSearchRepository implements ILicenseSearchRepository {
+    FindLicenseByProduct(product: Product): License | null {
+        // Preparação do comando no DB
+        let licenseST = sqlite3db.DB.prepare(`
+            SELECT * FROM Licenses
+            WHERE product_build_id = ?;
+        `)
+
+        // Execução do comando no DB para obtenção da licença
+        let license = licenseST.get(product.buildId) as ILicenseModel | undefined
+
+        // Retorna licença ou null caso não exista
+        return license? new License({
+            productBuildId: license.product_build_id,
+            productKey: license.product_key,
+            secrets: { publicKey: license.public_secret_key, privateKey: license.private_secret_key },
+            salt: license.salt
+        }) : null
+    }
+}
 
 /**
  * Responsável pela criação e destruição de dados de Licença no banco de dados
@@ -35,4 +59,4 @@ class SQLite3LicenseManagementRepository implements ILicenseManagementRepository
     }
 }
 
-export { SQLite3LicenseManagementRepository }
+export { SQLite3LicenseSearchRepository, SQLite3LicenseManagementRepository }

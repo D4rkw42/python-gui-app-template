@@ -77,10 +77,10 @@ class ListUsersController {
         constrains.data.limit = Math.trunc(constrains.data.limit)
 
         // Obtém todos os usuários
-        let users
+        let data
 
         try {
-            users = this.listUsersService.load({ startAt: constrains.data.startAt, limit: constrains.data.limit })
+            data = this.listUsersService.load({ startAt: constrains.data.startAt, limit: constrains.data.limit })
         } catch (err: unknown) {
             if (err instanceof Error) {
                 errorLogger.EmitLog({ 
@@ -92,6 +92,8 @@ class ListUsersController {
 
             return res.status(500).json({ message: "Erro inesperado." }) // Internal Server Error
         }
+
+        let users = data.export.users
 
         // Sem usuários registrados // Ok
         if (!users) {

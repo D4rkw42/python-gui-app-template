@@ -47,7 +47,7 @@ class CreateUserService {
         if (user !== null) {
             throw new ServerError(
                 CreateUserServiceException.EmailAlreadyRegistered,
-                { message: "Não foi possível criar o usuário.", cause: "O e-mail informado já está registrado." }
+                { message: "Este usuário já existe.", cause: "O e-mail informado já está registrado." }
             )
         }
 

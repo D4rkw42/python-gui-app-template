@@ -33,14 +33,10 @@ class SQLite3UserSearchRepository implements IUserSearchRepository {
             WHERE email = ?;
         `)
 
-        let user = userFoundST.get(email) as IUserModel
+        let user = userFoundST.get(email) as IUserModel | undefined
 
         // Retorna o usuário se foi encontrado
-        if (user) {
-           return new User(user)
-        }
-
-        return null
+        return user? new User(user) : null
     }
 
     // obtém todos os usuários do banco de dados a partir de certo ponto

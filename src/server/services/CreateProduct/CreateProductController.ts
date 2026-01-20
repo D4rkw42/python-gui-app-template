@@ -56,7 +56,7 @@ class CreateProductController {
         // Dados inválidos // Bad Request  
         if (!userInfo.success) {
             return res.status(400).json({
-                message: "Dados inválidos",
+                message: "Dados inválidos.",
                 description: userInfo.error.issues
             })
         }
@@ -77,9 +77,9 @@ class CreateProductController {
         } catch (err: unknown) {
             if (err instanceof ServerException) {
                 switch (err.exception) {
-                    // E-mail não registrado // Bad Request
+                    // E-mail não registrado (usuário não existe) // Not Found
                     case CreateProductServiceException.EmailNotRegistered:
-                        return res.status(400).json({ message: err.Formated })
+                        return res.status(404).json({ message: err.Formated })
 
                     // Usuário não pôde ser salvo no banco de dados // Internal Server Error
                     case CreateProductServiceException.UnexpectedError:

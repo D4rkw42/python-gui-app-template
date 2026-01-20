@@ -76,7 +76,7 @@ class CreateProductService {
         if (!user) {
             throw new ServerException(
                 CreateProductServiceException.EmailNotRegistered,
-                { message: "Não foi possível criar um produto para esse usuário.", cause: "E-mail não registrado." }
+                { message: "Este usuário não existe.", cause: "E-mail não registrado." }
             )
         }
 

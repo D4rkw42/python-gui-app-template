@@ -119,7 +119,7 @@ function GeneratePayloadToken(payload: IPayload, privateKey: string): string {
  * @param publicKey ``string`` A chave pública para análise.
  * @returns ``boolean`` Se o payload é válido.
  */
-function ValidatePayloadToken(payload: IPayload, token: string, publicKey: string): boolean {
+function ValidatePayload(payload: IPayload, token: string, publicKey: string): boolean {
     payload = NormalizePayloadShape(payload)
 
     let content = JSON.stringify(payload)
@@ -140,4 +140,4 @@ function ValidatePayloadToken(payload: IPayload, token: string, publicKey: strin
 }
 
 export type { IPayload }
-export { CreatePayload, GeneratePayloadToken, ValidatePayloadToken }
+export { CreatePayload, GeneratePayloadToken, ValidatePayload }
