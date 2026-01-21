@@ -20,7 +20,8 @@ type CreateProductRequest = Request<
  * Body do serviço "CreateProduct"
  */
 interface ICreateProductBody {
-    userEmail: string
+    userEmail: string,
+    projectName: string
 }
 
 /**
@@ -45,13 +46,17 @@ class CreateProductController {
         const operationLogger = new Logger(process.env.OPERATION_LOG_FILE ?? ".log.txt")
 
         let userEmail = req.body.userEmail
+        let projectName = req.body.projectName
 
         let userInfoSchema = z.object({
-            userEmail: z.email("Endereço de e-mail inválido.")
+            userEmail: z.email("Endereço de e-mail inválido."),
+            projectName: z.string("Apenas texto é permitido.")
+                .min(8, "Tamanho mínimo de 8 caracteres.")
+                .max(35, "Tamanho máximo excedido: 35 caracteres.")
         })
 
         // Verificação da validade dos dados
-        let userInfo = userInfoSchema.safeParse({ userEmail })
+        let userInfo = userInfoSchema.safeParse({ userEmail, projectName })
 
         // Dados inválidos // Bad Request  
         if (!userInfo.success) {
@@ -62,7 +67,7 @@ class CreateProductController {
         }
 
         try {
-            let result = this.createProductService.load({ userEmail: userInfo.data.userEmail })
+            let result = this.createProductService.load({ userEmail: userInfo.data.userEmail, projectName: userInfo.data.projectName })
 
             operationLogger.EmitLog({
                 origin: "HTTP:CreateProduct",

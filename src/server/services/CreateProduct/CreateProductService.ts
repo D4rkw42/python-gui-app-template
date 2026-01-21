@@ -26,7 +26,8 @@ enum CreateProductServiceException {
  * Propriedades para executar o serviço CreateProduct
  */
 interface ICreateProductProps {
-    userEmail: string
+    userEmail: string,
+    projectName: string
 }
 
 /**
@@ -81,7 +82,7 @@ class CreateProductService {
         }
 
         // Criação do produto
-        let product = new Product({ ownerId: user.id })
+        let product = new Product({ ownerId: user.id, projectName: props.projectName })
 
         // Configuração de parâmetros da licença
         let licenseConfig = OpenJsonConfig("types/License.config.json")

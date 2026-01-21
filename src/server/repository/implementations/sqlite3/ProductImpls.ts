@@ -43,12 +43,12 @@ class SQLite3ProductManagementRepository implements IProductManagementRepository
     SaveProduct(product: Product): boolean {
         // Preparação do comando para criar produto na tabela Products 
         let productST = sqlite3db.DB.prepare(`
-            INSERT INTO Products (build_id, owner_id)
-            VALUES (?, ?);
+            INSERT INTO Products (build_id, owner_id, project_name)
+            VALUES (?, ?, ?);
         `)
 
         // Execução da criação de produtos
-        let changes = productST.run(product.buildId, product.ownerId).changes
+        let changes = productST.run(product.buildId, product.ownerId, product.projectName).changes
 
         // Criação bem sucedida se houve mudanças
         return changes !== 0
@@ -75,6 +75,7 @@ class SQLite3ProductSearchRepository implements IProductSearchRepository {
         return products.map(product => new Product({
             buildId: product.build_id,
             ownerId: product.owner_id,
+            projectName: product.project_name,
             installId: product.install_id,
             fingerprint: product.fingerprint,
             isActivated: product.is_activated

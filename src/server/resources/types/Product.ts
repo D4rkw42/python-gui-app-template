@@ -8,6 +8,7 @@ import { GenerateHexadecimal } from "@utils/math/numeric/Hexadecimal.js"
 interface IProductConstructorProps {
     buildId?: string
     ownerId: string
+    projectName: string
     installId?: string
     fingerprint?: string
     isActivated?: boolean
@@ -19,14 +20,16 @@ interface IProductConstructorProps {
 class Product {
     public buildId: string
     public ownerId: string
+    public projectName: string
     public installId: string
     public fingerprint: string
     public isActivated: boolean
     
     constructor(props: IProductConstructorProps) {
-        // ID gerado automaticamente na primeira criação
-        this.buildId = props.buildId ?? Product.GenerateProductId(true)
+        this.buildId = props.buildId ?? Product.GenerateProductId(true) // ID gerado automaticamente na primeira criação
         this.ownerId = props.ownerId
+
+        this.projectName = props.projectName
 
         // Valor padrão definido no banco de dados. Gerado client-side quando o produto é ativado.
         if (props.installId !== undefined) {
