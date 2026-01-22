@@ -168,23 +168,29 @@ class ActivateAppService {
         // Ativação da licença e criação do payload
 
         // Transação para execução de todas as operações de uma vez
-        function transaction(...args: any[]): { payload: IPayload, token: string } {
-            let service = args[0] as ActivateAppService
+        function Transaction(...args: any[]): { payload: IPayload, token: string } {
+            let productManagementRepository = args[0] as IProductManagementRepository
+            let payloadManagementRepository = args[1] as IPayloadManagementRepository
 
-            service.productManagementRepository.Activate(product) // atualiza campo de ativação do produto
-            service.productManagementRepository.UpdateInstallInfo(product, props.installId, props.fingerprint) // atualiza informações de instalação
+            productManagementRepository.Activate(product) // atualiza campo de ativação do produto
+            productManagementRepository.UpdateInstallInfo(product, props.installId, props.fingerprint) // atualiza informações de instalação
         
             // Payload com modo "online" + "token"
             let payload = CreatePayload({ installId: props.installId, mode: "online" })
             let token = GeneratePayloadToken(payload, license.secrets.privateKey)
 
-            service.payloadManagementRepository.SavePayload(payload, token) // salva o payload no DB
+            payloadManagementRepository.SavePayload(payload, token) // salva o payload no DB
 
             return { payload, token }
         }
 
         try {
-            let result = this.transactionManager.load(transaction, this) as { payload: IPayload, token: string }
+            let result = this.transactionManager.Load(
+                Transaction,
+                this.productManagementRepository,
+                this.payloadManagementRepository
+            ) as { payload: IPayload, token: string }
+
             return { export: result }
         } catch {
             throw new ServerException(ActivateAppServiceException.UnexpectedError, {

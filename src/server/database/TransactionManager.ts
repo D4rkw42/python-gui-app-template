@@ -18,7 +18,7 @@ class TransactionManager {
      * Executa uma transação.
      * @param callback ``TransactionCallback`` A função que executa as operações do banco de dados
      */
-    load(callback: TransactionCallback, ...args: any[]): unknown {
+    Load(callback: TransactionCallback, ...args: any[]): unknown {
         return this.transaction(callback, ...args)
     }
 }

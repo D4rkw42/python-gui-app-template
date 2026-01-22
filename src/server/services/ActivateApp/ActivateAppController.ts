@@ -60,10 +60,10 @@ class ActivateAppController {
         // Validação de dados
         let activationSchema = z.object({
             userEmail: z.email("E-mail inválido."),
-            productKey: z.string("O valor fornecido é inválido"),
-            buildId: z.string("Valor inválido."),
-            installId: z.string("Valor inválido."),
-            fingerprint: z.string("Valor inválido.")
+            productKey: z.string("O valor fornecido é inválido").nonempty("Campo Vazio."),
+            buildId: z.string("Valor inválido.").nonempty("Campo Vazio."),
+            installId: z.string("Valor inválido.").nonempty("Campo Vazio."),
+            fingerprint: z.string("Valor inválido.").nonempty("Campo Vazio.")
         })
 
         let activation = activationSchema.safeParse({ userEmail, productKey, buildId, installId, fingerprint })
