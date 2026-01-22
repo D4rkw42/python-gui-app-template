@@ -8,7 +8,7 @@ import { IPayloadSearchRepository, IPayloadManagementRepository } from "@reposit
 import { IPayload } from "@resources/shared/services/Payload.js"
 
 class SQLite3PayloadSearchRepository implements IPayloadSearchRepository {
-    FindPayloadByInstallId(productInstallId: string): IPayloadModel | null {
+    FindPayloadByinstallID(productinstallID: string): IPayloadModel | null {
         // Comando para o banco de dados
         let payloadST = sqlite3db.DB.prepare(`
             SELECT * FROM Payloads
@@ -16,7 +16,7 @@ class SQLite3PayloadSearchRepository implements IPayloadSearchRepository {
         `)
 
         // Obtém o payload selecionado
-        let payload = payloadST.get(productInstallId) as IPayloadModel | undefined
+        let payload = payloadST.get(productinstallID) as IPayloadModel | undefined
 
         // Retorn o payload ou null caso não exista
         return payload? payload : null
@@ -32,7 +32,7 @@ class SQLite3PayloadManagementRepository implements IPayloadManagementRepository
         `)
 
         // Executa o comando e obtém o número de mudanças nas linhas
-        let changes = payloadST.run(payload.installId, token).changes
+        let changes = payloadST.run(payload.installID, token).changes
 
         // Resultado bem sucedido se houve alguma mudança
         return changes !== 0

@@ -39,8 +39,8 @@ enum ActivateAppServiceException {
 interface IActivateAppProps {
     userEmail: string
     productKey: string
-    buildId: string
-    installId: string
+    buildID: string
+    installID: string
     fingerprint: string
 }
 
@@ -112,7 +112,7 @@ class ActivateAppService {
             })
         }
 
-        let filtered = products.filter(product => product.buildId === props.buildId)
+        let filtered = products.filter(product => product.buildID === props.buildID)
 
         if (filtered.length === 0) {
             throw new ServerException(ActivateAppServiceException.UserAndProductMismatch, {
@@ -157,7 +157,7 @@ class ActivateAppService {
 
         // Valida se já não existe um payload para esse identificador de instalação
 
-        let payloadSearch = this.payloadSearchRepository.FindPayloadByInstallId(props.installId)
+        let payloadSearch = this.payloadSearchRepository.FindPayloadByinstallID(props.installID)
 
         if (payloadSearch) {
             throw new ServerException(ActivateAppServiceException.ProductInstallationAlreadyExists, {
@@ -173,10 +173,10 @@ class ActivateAppService {
             let payloadManagementRepository = args[1] as IPayloadManagementRepository
 
             productManagementRepository.Activate(product) // atualiza campo de ativação do produto
-            productManagementRepository.UpdateInstallInfo(product, props.installId, props.fingerprint) // atualiza informações de instalação
+            productManagementRepository.UpdateInstallInfo(product, props.installID, props.fingerprint) // atualiza informações de instalação
         
             // Payload com modo "online" + "token"
-            let payload = CreatePayload({ installId: props.installId, mode: "online" })
+            let payload = CreatePayload({ installID: props.installID, mode: "online" })
             let token = GeneratePayloadToken(payload, license.secrets.privateKey)
 
             payloadManagementRepository.SavePayload(payload, token) // salva o payload no DB

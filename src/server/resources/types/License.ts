@@ -6,7 +6,7 @@ import ILicenseSecrets from "@resources/interfaces/ILicenseSecrets.js"
  * License Constructor
  */
 interface ILicenseConstructorProps {
-    productBuildId: string
+    productbuildID: string
     productKey: string
     secrets: ILicenseSecrets
     salt: string
@@ -16,7 +16,7 @@ interface ILicenseConstructorProps {
  * Representa uma Licença para um Produto específico
  */
 class License {
-    public productBuildId: string
+    public productbuildID: string
 
     public productKey: string
     public secrets: ILicenseSecrets
@@ -24,7 +24,7 @@ class License {
     public salt: string
 
     constructor(props: ILicenseConstructorProps) {
-        this.productBuildId = props.productBuildId
+        this.productbuildID = props.productbuildID
         this.productKey = props.productKey
         this.secrets = props.secrets
         this.salt = props.salt

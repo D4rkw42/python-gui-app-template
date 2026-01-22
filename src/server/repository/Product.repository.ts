@@ -27,11 +27,11 @@ interface IProductManagementRepository {
      * Atualiza as informações de instalação do produto
      * 
      * @param product ``Product`` O produto a ser atualizado.
-     * @param installId ``string`` Campo ``install_id``.
+     * @param installID ``string`` Campo ``install_id``.
      * @param fingerprint ``string`` Campo ``fingerprint``.
      * @returns ``boolean`` Se a operação fo bem sucedida.
      */
-    UpdateInstallInfo(product: Product, installId: string, fingerprint: string): boolean
+    UpdateInstallInfo(product: Product, installID: string, fingerprint: string): boolean
 }
 
 /**

@@ -71,7 +71,7 @@ class CreateProductController {
 
             operationLogger.EmitLog({
                 origin: "HTTP:CreateProduct",
-                content: `Novo produto criado com o id "${result.export.product.buildId}".`
+                content: `Novo produto criado com o id "${result.export.product.buildID}".`
             })
 
             // Produto criado com sucesso // Created

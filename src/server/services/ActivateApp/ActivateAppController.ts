@@ -25,8 +25,8 @@ interface IActivateAppBody {
         productKey: string
     }
 
-    buildId: string
-    installId: string
+    buildID: string
+    installID: string
     fingerprint: string
 }
 
@@ -53,20 +53,20 @@ class ActivateAppController {
 
         let userEmail = req.body.activate?.userEmail
         let productKey = req.body.activate?.productKey
-        let buildId = req.body.buildId
-        let installId = req.body.installId
+        let buildID = req.body.buildID
+        let installID = req.body.installID
         let fingerprint = req.body.fingerprint
 
         // Validação de dados
         let activationSchema = z.object({
             userEmail: z.email("E-mail inválido."),
             productKey: z.string("O valor fornecido é inválido").nonempty("Campo Vazio."),
-            buildId: z.string("Valor inválido.").nonempty("Campo Vazio."),
-            installId: z.string("Valor inválido.").nonempty("Campo Vazio."),
+            buildID: z.string("Valor inválido.").nonempty("Campo Vazio."),
+            installID: z.string("Valor inválido.").nonempty("Campo Vazio."),
             fingerprint: z.string("Valor inválido.").nonempty("Campo Vazio.")
         })
 
-        let activation = activationSchema.safeParse({ userEmail, productKey, buildId, installId, fingerprint })
+        let activation = activationSchema.safeParse({ userEmail, productKey, buildID, installID, fingerprint })
 
         // Dados inválidos // Bad Request  
         if (!activation.success) {
@@ -80,14 +80,14 @@ class ActivateAppController {
             let data = this.activateAppService.load({
                 userEmail: activation.data.userEmail,
                 productKey: activation.data.productKey,
-                buildId: activation.data.buildId,
-                installId: activation.data.installId,
+                buildID: activation.data.buildID,
+                installID: activation.data.installID,
                 fingerprint: activation.data.fingerprint
             })
 
             operationLogger.EmitLog({
                 origin: "HTTP:ActivateApp",
-                content: `Produto ${activation.data.buildId} ativado com sucesso com o id de instalação ${activation.data.installId}. Referido usuário: ${activation.data.userEmail}.`
+                content: `Produto ${activation.data.buildID} ativado com sucesso com o id de instalação ${activation.data.installID}. Referido usuário: ${activation.data.userEmail}.`
             })
 
             // Produto ativado com sucesso // Ok

@@ -6,10 +6,10 @@ import { GenerateHexadecimal } from "@utils/math/numeric/Hexadecimal.js"
  * Product Constructor
  */
 interface IProductConstructorProps {
-    buildId?: string
+    buildID?: string
     ownerId: string
     projectName: string
-    installId?: string
+    installID?: string
     fingerprint?: string
     isActivated?: boolean
 }
@@ -18,22 +18,22 @@ interface IProductConstructorProps {
  * Representa os produtos vendidos a clientes
  */
 class Product {
-    public buildId: string
+    public buildID: string
     public ownerId: string
     public projectName: string
-    public installId: string
+    public installID: string
     public fingerprint: string
     public isActivated: boolean
     
     constructor(props: IProductConstructorProps) {
-        this.buildId = props.buildId ?? Product.GenerateProductId(true) // ID gerado automaticamente na primeira criação
+        this.buildID = props.buildID ?? Product.GenerateProductId(true) // ID gerado automaticamente na primeira criação
         this.ownerId = props.ownerId
 
         this.projectName = props.projectName
 
         // Valor padrão definido no banco de dados. Gerado client-side quando o produto é ativado.
-        if (props.installId !== undefined) {
-            this.installId = props.installId
+        if (props.installID !== undefined) {
+            this.installID = props.installID
         }
 
         // Valor padrão definido no banco de dados. Gerado client-side quando o produto é ativado

@@ -19,13 +19,13 @@ class SQLite3ProductManagementRepository implements IProductManagementRepository
         `)
 
         // Executa a ação do banco de dados e obtém a quantidade de mudanças
-        let changes = activationST.run(product.buildId).changes
+        let changes = activationST.run(product.buildID).changes
 
         // Operação bem sucedida se houve mudanças
         return changes !== 0
     }
 
-    UpdateInstallInfo(product: Product, installId: string, fingerprint: string): boolean {
+    UpdateInstallInfo(product: Product, installID: string, fingerprint: string): boolean {
         // Comando no banco de dados
         let infoUpdateST = sqlite3db.DB.prepare(`
             UPDATE Products
@@ -34,7 +34,7 @@ class SQLite3ProductManagementRepository implements IProductManagementRepository
         `)
 
         // Executa o comando no banco de dados e obtém a quantidade de mudanças
-        let changes = infoUpdateST.run(installId, fingerprint, product.buildId).changes
+        let changes = infoUpdateST.run(installID, fingerprint, product.buildID).changes
 
         // Operação bem sucedida se houve mudanças
         return changes !== 0
@@ -48,7 +48,7 @@ class SQLite3ProductManagementRepository implements IProductManagementRepository
         `)
 
         // Execução da criação de produtos
-        let changes = productST.run(product.buildId, product.ownerId, product.projectName).changes
+        let changes = productST.run(product.buildID, product.ownerId, product.projectName).changes
 
         // Criação bem sucedida se houve mudanças
         return changes !== 0
@@ -73,10 +73,10 @@ class SQLite3ProductSearchRepository implements IProductSearchRepository {
 
         // Retorna todos os produtos encontrados
         return products.map(product => new Product({
-            buildId: product.build_id,
+            buildID: product.build_id,
             ownerId: product.owner_id,
             projectName: product.project_name,
-            installId: product.install_id,
+            installID: product.install_id,
             fingerprint: product.fingerprint,
             isActivated: product.is_activated
         }))

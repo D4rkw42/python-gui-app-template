@@ -17,11 +17,11 @@ class SQLite3LicenseSearchRepository implements ILicenseSearchRepository {
         `)
 
         // Execução do comando no DB para obtenção da licença
-        let license = licenseST.get(product.buildId) as ILicenseModel | undefined
+        let license = licenseST.get(product.buildID) as ILicenseModel | undefined
 
         // Retorna licença ou null caso não exista
         return license? new License({
-            productBuildId: license.product_build_id,
+            productbuildID: license.product_build_id,
             productKey: license.product_key,
             secrets: { publicKey: license.public_secret_key, privateKey: license.private_secret_key },
             salt: license.salt
@@ -47,7 +47,7 @@ class SQLite3LicenseManagementRepository implements ILicenseManagementRepository
 
         // Execução do comando no banco de dados
         let changes = licenseST.run(
-            license.productBuildId,
+            license.productbuildID,
             license.productKey,
             license.secrets.publicKey,
             license.secrets.privateKey,

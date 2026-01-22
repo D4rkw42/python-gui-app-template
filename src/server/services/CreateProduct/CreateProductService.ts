@@ -36,7 +36,7 @@ interface ICreateProductProps {
 interface ICreateProductExport {
     export: {
         product: {
-            buildId: string
+            buildID: string
         }
         
         license: {
@@ -111,7 +111,7 @@ class CreateProductService {
 
         // Gera a licença conforme a configuração
         let license = new License({
-            productBuildId: product.buildId,
+            productbuildID: product.buildID,
             productKey: productKey.signature,
             secrets: secrets,
             salt: salt
@@ -132,7 +132,7 @@ class CreateProductService {
         // Exporta informações importantes para o controller
         return {
             export: {
-                product: { buildId: product.buildId },
+                product: { buildID: product.buildID },
                 license: { productKey: productKey.raw, publicKey: secrets.publicKey }
             }
         }

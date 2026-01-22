@@ -9,7 +9,7 @@ import { DateTime } from "luxon"
  * Representação do payload retornado pelo servidor
  */
 interface IPayload {
-    installId: string
+    installID: string
     mode: PayloadMode
     launchedAt: string
     expiresAt: string
@@ -29,7 +29,7 @@ const PAYLOAD_TIMESTAMP_FORMAT = "FFFF"
  * Propriedades para criação do Payload
  */
 interface ICreatePayloadProps {
-    installId: string
+    installID: string
     mode: PayloadMode
 }
 
@@ -39,12 +39,12 @@ const NULL_METHOD_ALGORITHMS = ["ed25519", "ed448", "ml-dsa"]
 /**
  * Cria um payload com base nas informações passadas
  * 
- * @param props ``ICreatePayloadProps`` Propriedades necessárias: ``installId`` (``string``) - id de instalação do produto, ``mode`` - modo de licenciamento.
+ * @param props ``ICreatePayloadProps`` Propriedades necessárias: ``installID`` (``string``) - id de instalação do produto, ``mode`` - modo de licenciamento.
  * @return ``IPayload``
  */
 function CreatePayload(props: ICreatePayloadProps): IPayload {
     let payload: any = {
-        installId: props.installId,
+        installID: props.installID,
         mode: props.mode
     }
 
@@ -71,7 +71,7 @@ function CreatePayload(props: ICreatePayloadProps): IPayload {
  */
 function NormalizePayloadShape(payload: IPayload): IPayload {
     return {
-        installId: payload.installId,
+        installID: payload.installID,
         mode: payload.mode,
         launchedAt: payload.launchedAt,
         expiresAt: payload.expiresAt,

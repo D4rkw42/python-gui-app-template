@@ -10,10 +10,10 @@ interface IPayloadSearchRepository {
     /**
      * Encontra um payload salvo no banco de dados através do id de instalação do produto.
      * 
-     * @param productInstallId ``string`` O id de instalação do produto ao qual o payload pertence.
+     * @param productinstallID ``string`` O id de instalação do produto ao qual o payload pertence.
      * @returns ``IPayload`` se o payload existir ou ``null`` caso o produto não tenha payload ou não exista.
      */
-    FindPayloadByInstallId(productInstallId: string): IPayloadModel | null
+    FindPayloadByinstallID(productinstallID: string): IPayloadModel | null
 }
 
 // Gerenciamento de payloads
