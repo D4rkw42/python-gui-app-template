@@ -1,7 +1,7 @@
 # interface da rota home do GUI App
 
 from PySide6.QtWidgets import QVBoxLayout, QWidget
-from client.utils.interface import QSSLoader
+from client.core.interface import QSSLoader
 
 class Home(QVBoxLayout):
     def __init__(self, parent: QWidget):

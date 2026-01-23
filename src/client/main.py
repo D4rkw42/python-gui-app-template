@@ -4,9 +4,9 @@ from client.settings import *
 from client.globals import *
 
 # entry point
-def main():
+def Main():
     # inicialização do app
-    app.init()
+    app.Init()
 
     # execução do projeto
     pyside6_window.show() # invoca a janela principal
@@ -18,7 +18,7 @@ def main():
     # callback do timeout, passando dt em milisegundos
     def timeout_callback():
         dt = clock.restart() * 0.001
-        app.update(dt)
+        app.Update(dt)
 
     timer.setInterval(APP_UPDATE_COOLDOWN)
     timer.timeout.connect(timeout_callback)
@@ -29,8 +29,8 @@ def main():
     pyside6_application.exec() # executa o aplicativo do PySide6
 
     # finalização do app
-    app.quit()
+    app.Quit()
 
 # chamada inicial ao executar o projeto
 if __name__ == "__main__":
-    main()
+    Main()

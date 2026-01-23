@@ -1,7 +1,7 @@
 # interface principal da janela
 
 from PySide6.QtWidgets import QVBoxLayout, QWidget
-from client.utils.interface import QSSLoader, ApplicationRouter
+from client.core.interface import QSSLoader, ApplicationRouter
 
 from client.interface.home import Home
 
@@ -15,4 +15,4 @@ class Interface(QVBoxLayout):
         ApplicationRouter.setParent(self) # linkagem do router com a interface principal
 
         # seção para adicionar rotas
-        ApplicationRouter.create_route(Home, "Home") # aba home (principal)
+        ApplicationRouter.CreateRoute(Home, "Home") # aba home (principal)

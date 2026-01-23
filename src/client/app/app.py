@@ -11,13 +11,13 @@ class App:
     
 
     # inicialização de dependências do app
-    def init(self):
+    def Init(self):
         pass
 
     # finalização de dependências do app
-    def quit(self):
+    def Quit(self):
         pass
 
     # loop de execução principal do app
-    def update(self, dt: float):
+    def Update(self, dt: float):
         pass

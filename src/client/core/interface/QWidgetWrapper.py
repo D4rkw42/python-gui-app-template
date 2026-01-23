@@ -10,6 +10,6 @@ class QWidgetWrapper():
         self.widget = WidgetType(*args)
 
     # função para adicionar o widget dentro do layout pai
-    def add(self, layout: QLayout) -> QWidget:
+    def Add(self, layout: QLayout) -> QWidget:
         layout.addWidget(self.widget)
         return self.widget

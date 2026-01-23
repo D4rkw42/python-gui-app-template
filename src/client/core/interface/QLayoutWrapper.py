@@ -10,10 +10,10 @@ class QLayoutWrapper(QWidget):
         self.m_layout = LayoutType(self, *args)
 
     # função auxiliar para adicionar widgets externamente no layout
-    def addWidget(self, widget: QWidget):
+    def AddWidget(self, widget: QWidget):
         self.m_layout.addWidget(widget)
 
     # função para adicionar o próprio layout dentro do layout pai
-    def add(self, layout: QLayout) -> Self:
+    def Add(self, layout: QLayout) -> Self:
         layout.addWidget(self)
         return self
