@@ -1,0 +1,6 @@
+{
+    "name": "",
+    "installID": "",
+    "buildID": "",
+    "version": ""
+}

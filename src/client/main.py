@@ -1,21 +1,26 @@
 from PySide6.QtCore import QTimer, QElapsedTimer
 
+from client.setup import Setup
+
 from client.settings import *
 from client.globals import *
 
 # entry point
 def Main():
-    # inicialização do app
+    # Inicialização do aplicativo (funções essenciais)
+    Setup()
+
+    # Inicialização do aplicativo
     app.Init()
 
-    # execução do projeto
+    # Execução do projeto
     pyside6_window.show() # invoca a janela principal
 
-    # definição do loop principal
+    # Definição do loop principal
     clock = QElapsedTimer()
     timer = QTimer()
 
-    # callback do timeout, passando dt em milisegundos
+    # Callback do timeout, passando dt em milisegundos
     def timeout_callback():
         dt = clock.restart() * 0.001
         app.Update(dt)
@@ -26,11 +31,11 @@ def Main():
     clock.start()
     timer.start()
 
-    pyside6_application.exec() # executa o aplicativo do PySide6
+    pyside6_application.exec() # Executa o aplicativo do PySide6
 
-    # finalização do app
+    # Finalização do app
     app.Quit()
 
-# chamada inicial ao executar o projeto
+# Chamada inicial ao executar o projeto
 if __name__ == "__main__":
     Main()

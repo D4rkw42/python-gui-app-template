@@ -1,12 +1,18 @@
-# configurações globais do projeto
+# Configurações globais do projeto
 
-# configurações gerais da janela
+# Modo de debug
+DEBUG = True
+
+# Configurações gerais da janela
 INITIAL_WIDTH = 600 # largura inicial
 INITIAL_HEIGHT = 400 # altura inicial
 
 MIN_WIDTH = 300 # largura mínima
 MIN_HEIGHT = 200 # altura mínima
 
-# configurações gerais de app
+# Configurações gerais de app
 APP_NAME = "Python GUI App Template"
 APP_UPDATE_COOLDOWN = 250 # tempo em ms para execução do loop principal de app
+
+# Diretórios essenciais para o funcionamento do aplicativo
+APPLICATION_DIRS = ["/data/client", "/logs/client"]

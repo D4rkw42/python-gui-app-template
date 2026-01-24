@@ -7,7 +7,7 @@ import { RandInt } from "@utils/math/basics.js"
  * 
  * @param length Tamanho da string
  */
-function GenerateHexadecimal(length: number): string {
+function GenerateHexadecimalStr(length: number): string {
     if (length < 1) {
         throw new Error("Hexadecimal length should be at least 1.")
     }
@@ -29,4 +29,4 @@ function GenerateHexadecimal(length: number): string {
     return hex
 }
 
-export { GenerateHexadecimal }
+export { GenerateHexadecimalStr }

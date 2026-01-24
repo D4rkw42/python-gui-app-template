@@ -1,6 +1,6 @@
 // Definições gerais e regras de Produto
 
-import { GenerateHexadecimal } from "@utils/math/numeric/Hexadecimal.js"
+import { GenerateHexadecimalStr } from "@utils/math/numeric/Hexadecimal.js"
 
 /**
  * Product Constructor
@@ -53,7 +53,7 @@ class Product {
      * @returns Um código hexadecimal que representa 
      */
     static GenerateProductId(isBuildType: boolean = false): string {
-        return "00" + GenerateHexadecimal(8) + (isBuildType? ".build" : "")
+        return "00" + GenerateHexadecimalStr(8) + (isBuildType? ".build" : "")
     }
 }
 
