@@ -33,7 +33,7 @@ def Manifest():
 
     # Cria um novo manifest se ele não existe
     if not manifest_exists:
-        manifest_template = os.getcwd() + "/config/client/templates/manifest.json.tpl"
+        manifest_template = os.getcwd() + "/templates/client/manifest.json.tpl"
 
         with open(manifest_template, "r") as template:
             with open(manifest_file, "w") as manifest_new:
