@@ -1,6 +1,7 @@
 {
     "name": "",
-    "installID": "",
     "buildID": "",
-    "version": ""
+    "installID": "",
+    "version": "",
+    "mode": ""
 }

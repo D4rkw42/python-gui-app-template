@@ -11,7 +11,7 @@ MIN_WIDTH = 300 # largura mínima
 MIN_HEIGHT = 200 # altura mínima
 
 # Configurações gerais de app
-APP_NAME = "Python GUI App Template"
+DEFAULT_APP_NAME = "Python GUI App Template"
 APP_UPDATE_COOLDOWN = 250 # tempo em ms para execução do loop principal de app
 
 # Diretórios essenciais para o funcionamento do aplicativo

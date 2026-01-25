@@ -2,6 +2,7 @@ from PySide6.QtWidgets import QMainWindow, QWidget
 from PySide6.QtGui import QIcon
 
 from client.settings import *
+from client.core import manifest
 
 from .Interface import Interface
 
@@ -10,8 +11,10 @@ class PySide6Window(QMainWindow):
     def __init__(self):
         super().__init__()
 
+    # Carrega as configurações da janlena
+    def Init(self):
         # definição do nome do app na janela
-        self.setWindowTitle(APP_NAME)
+        self.setWindowTitle(DEFAULT_APP_NAME if manifest.info["name"] == "" else manifest.info["name"])
 
         # definição do ícone do app na janela
         icon = QIcon("assets/client/favicon.ico")

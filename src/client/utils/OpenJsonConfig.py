@@ -8,5 +8,8 @@ from typing import Any
 def OpenJsonConfig(filepath: str) -> dict[str, Any]:
     path = os.getcwd() + filepath
 
-    with open(path, "r") as file:
-        return json.load(file)
+    try:
+        with open(path, "r") as file:
+            return json.load(file)
+    except:
+        raise RuntimeError(f"File {path} does not exist.")

@@ -10,6 +10,9 @@ def Main():
     # Inicialização do aplicativo (funções essenciais)
     Setup()
 
+    # Inicialização da janela
+    pyside6_window.Init()
+
     # Inicialização do aplicativo
     app.Init()
 
