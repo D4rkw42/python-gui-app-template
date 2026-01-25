@@ -7,7 +7,7 @@ authors = [
 ]
 license = "MIT"
 readme = "README.md"
-requires-python = ">=3.12,<3.15"
+requires-python = ">=3.10,<3.13"
 dependencies = [
     "pyside6 (>=6.10.1,<7.0.0)",
     "wmi (>=1.5.1,<2.0.0)",
@@ -20,7 +20,8 @@ Documentation = "https://d4rkw42.github.io/python-gui-app-template/docs"
 
 [tool.poetry]
 packages = [
-    {include = "client", from = "src"}
+    { include = "client", from = "src" },
+    { include = "project", from = "scripts" }
 ]
 
 [build-system]
@@ -28,4 +29,13 @@ requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
-start = "client.main:Main" # runs de project
+start = "client.__main__:Main" # runs de project
+
+[tool.poetry.plugins."console_scripts"]
+compile = "project.__main__:Compile"
+program = "project.__main__:ExecuteProgram"
+
+[dependency-groups]
+dev = [
+    "nuitka (>=2.8.10,<3.0.0)"
+]

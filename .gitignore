@@ -23,8 +23,9 @@ poetry.lock
 # Python
 __pycache__
 
-# CMake
+# Nuitka
 /build
+nuitka-crash-report.xml
 
 # Environments
 .env
