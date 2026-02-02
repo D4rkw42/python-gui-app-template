@@ -74,6 +74,9 @@ def BuildFile(origin: str, template: str):
             
             prop_sub = properties[prop_name]
 
+            if not prop_type in ["str", "int", "float", "bool"]:
+                raise RuntimeError(f'Invalid type "{prop_type}" for "{prop_sub}" in "{template}" template.')
+
             # Parsing de tipos para o Python gerado
             if prop_type == "str":
                 prop_sub = f'\"{prop_sub}\"'
