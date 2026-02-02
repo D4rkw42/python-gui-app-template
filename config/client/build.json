@@ -1,0 +1,5 @@
+{
+    "override": {
+        "/core/auth/settings.py": "/auth/settings.py.tpl"
+    }
+}

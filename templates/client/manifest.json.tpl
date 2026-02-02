@@ -1,7 +1,5 @@
 {
     "name": "",
-    "buildID": "",
     "installID": "",
-    "version": "",
-    "mode": ""
+    "version": ""
 }

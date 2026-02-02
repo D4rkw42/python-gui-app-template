@@ -3,7 +3,7 @@ name = "python-gui-app-template"
 version = "1.0.0"
 description = "Base para GUI Apps genéricos feitos com Python + PySide6"
 authors = [
-    {name = "D4rkw42", email = "william.conceicao042@gmail.com"}
+    { name = "D4rkw42", email = "william.conceicao042@gmail.com" }
 ]
 license = "MIT"
 readme = "README.md"
@@ -21,7 +21,9 @@ Documentation = "https://d4rkw42.github.io/python-gui-app-template/docs"
 [tool.poetry]
 packages = [
     { include = "client", from = "src" },
-    { include = "project", from = "scripts" }
+    { include = "client_builder", from = "scripts" },
+    { include = "template_maker", from = "scripts" },
+    { include = "template_builder", from = "scripts" }
 ]
 
 [build-system]
@@ -32,8 +34,10 @@ build-backend = "poetry.core.masonry.api"
 start = "client.__main__:Main" # runs de project
 
 [tool.poetry.plugins."console_scripts"]
-compile = "project.__main__:Compile"
-program = "project.__main__:ExecuteProgram"
+make-template = "template_maker.__main__:MakeTemplate"
+build-template = "template_builder.__main__:BuildTemplateFiles"
+build = "client_builder.__main__:BuildProgram"
+execute = "client_builder.__main__:ExecuteProgram"
 
 [dependency-groups]
 dev = [

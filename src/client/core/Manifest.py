@@ -55,8 +55,6 @@ class Manifest:
             manifest["installID"] = "00" + GenerateHexadecimalStr(8)
             manifest["version"] = __version__
 
-        manifest["mode"] = "development" if manifest["mode"] == "" else manifest["mode"]
-
         with open(os.getcwd() + manifest_file, "w") as file:
             json.dump(manifest, file, indent=2)
 
