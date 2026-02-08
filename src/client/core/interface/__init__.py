@@ -1,4 +1,4 @@
-# módulo de utilidades para interfaces
+# Módulo de utilidades para interfaces
 
 from .QSSLoader import *
 

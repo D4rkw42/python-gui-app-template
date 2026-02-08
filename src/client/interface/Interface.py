@@ -19,5 +19,5 @@ class Interface(QVBoxLayout):
         ApplicationRouter.CreateRoute(Auth, "auth") # Aba auth (autenticação)
         ApplicationRouter.CreateRoute(Home, "home") # Aba home (principal)
 
-        # Seleciona a aba home
+        # Seleciona a aba home por padrão
         ApplicationRouter.ChangeRoute("home")
